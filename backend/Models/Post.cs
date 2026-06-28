@@ -9,8 +9,8 @@
 
         public string? ImageUrl {  get; set; }
 
-        public int CreatedById { get; set; }
-        public Account CreatedBy { get; set; } = null!;
+        public int CreatedByAccountId { get; set; }
+        public Account CreatedByAccount { get; set; } = null!;
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }
