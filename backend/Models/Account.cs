@@ -8,14 +8,14 @@
 
         public string LastName { get; set; } = string.Empty;
 
-        public string Password { get; set; } = string.Empty;
+        public string PasswordHash { get; set; } = string.Empty;
 
         public int RoleId { get; set; }
 
         public Role Role { get; set; } = null!;
 
         public int DepartmentId { get; set; }
-        public Department Department { get; set; }=null!;
+        public Department Department { get; set; } = null!;
 
         public bool MustChangePassword { get; set; }
     }
