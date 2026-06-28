@@ -39,6 +39,24 @@ namespace backend.Data
             modelBuilder.Entity<React>()
                 .HasIndex(r => new { r.PostId, r.AccountId })
                 .IsUnique();
+
+            modelBuilder.Entity<Comment>()
+                .HasOne(c => c.Post)
+                .WithMany()
+                .HasForeignKey(c => c.PostId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<React>()
+                .HasOne(r => r.Post)
+                .WithMany()
+                .HasForeignKey(r => r.PostId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<EventParticipant>()
+                .HasOne(ep => ep.Event)
+                .WithMany()
+                .HasForeignKey(ep => ep.EventId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
