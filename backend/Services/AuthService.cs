@@ -1,9 +1,7 @@
-﻿using backend.Data;
 using backend.DTOs;
 using backend.Models;
 using backend.Repositories;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -16,16 +14,34 @@ namespace backend.Services
         private readonly IAccountRepository _accountRepository;
         private readonly IConfiguration _configuration;
         private readonly PasswordHasher<Account> _passwordHasher = new();
+
         public AuthService(IAccountRepository accountRepository, IConfiguration configuration)
         {
             _accountRepository = accountRepository;
             _configuration = configuration;
         }
 
+        public async Task AddAccountAsync(CreateAccountRequest request)
+        {
+            var account = new Account
+            {
+                Email = request.Email,
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                RoleId = request.RoleId,
+                DepartmentId = request.DepartmentId,
+                MustChangePassword = request.MustChangePassword
+            };
+
+            account.PasswordHash = _passwordHasher.HashPassword(account, request.Password);
+
+            await _accountRepository.AddAccountAsync(account);
+        }
+
         public async Task<LoginResponse?> LoginAsync(LoginRequest request)
         {
             var account = await _accountRepository.GetByEmailWithRoleAndDepartmentAsync(request.Email);
-            
+
             if (account == null)
             {
                 return null;

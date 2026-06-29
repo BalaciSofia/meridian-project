@@ -1,6 +1,6 @@
-﻿using backend.Data;
-using Microsoft.EntityFrameworkCore;
+using backend.Data;
 using backend.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace backend.Repositories
 {
@@ -24,6 +24,12 @@ namespace backend.Repositories
         public async Task<Account?> GetByIdAsync(int id)
         {
             return await _context.Accounts.FindAsync(id);
+        }
+
+        public async Task AddAccountAsync(Account account)
+        {
+            await _context.Accounts.AddAsync(account);
+            await _context.SaveChangesAsync();
         }
     }
 }
