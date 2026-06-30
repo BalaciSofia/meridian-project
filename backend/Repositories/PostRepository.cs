@@ -15,9 +15,15 @@ namespace backend.Repositories
             _context = context;
         }
 
-        public async Task<ActionResult<IEnumerable<Post>>> GetAllPost()
+        public async Task<ActionResult<IEnumerable<Post>>> GetAllPosts()
         {
             return await _context.Posts.ToListAsync();
+        }
+
+        public async Task AddPost(Post post)
+        {
+            await _context.Posts.AddAsync(post);
+            await _context.SaveChangesAsync();
         }
     }
 }

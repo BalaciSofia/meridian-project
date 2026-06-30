@@ -1,4 +1,5 @@
 ﻿using Azure.Core;
+using backend.Models;
 using backend.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,16 +12,16 @@ namespace backend.Controllers
     {
         private readonly EmployeesService _employeesService;
 
-        EmployeesController (EmployeesService employeesService)
+        public EmployeesController (EmployeesService employeesService)
         {
             _employeesService = employeesService;
         }
 
         [HttpGet("employees")]
-        public async Task<IActionResult> GetEmployees()
+        public async Task<ActionResult<IEnumerable<Account>>> GetEmployees()
         {
             var response = await _employeesService.GetAccounts();
-            return NoContent();
+            return response;
         }
 
         [HttpGet("{id}")]
