@@ -1,5 +1,7 @@
 using backend.Data;
 using backend.Models;
+using backend.Repositories.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Repositories
@@ -31,5 +33,10 @@ namespace backend.Repositories
             await _context.Accounts.AddAsync(account);
             await _context.SaveChangesAsync();
         }
+        public async Task<ActionResult<IEnumerable<Account>>> GetAllAccounts()
+        {
+            return await _context.Accounts.ToListAsync();
+        }
+
     }
 }

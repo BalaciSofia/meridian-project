@@ -1,6 +1,6 @@
 using backend.DTOs;
 using backend.Models;
-using backend.Repositories;
+using backend.Repositories.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;

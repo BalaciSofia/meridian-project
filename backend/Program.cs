@@ -1,5 +1,6 @@
 using backend.Data;
 using backend.Repositories;
+using backend.Repositories.Interfaces;
 using backend.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;

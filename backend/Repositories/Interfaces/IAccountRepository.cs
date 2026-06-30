@@ -1,6 +1,7 @@
 using backend.Models;
+using Microsoft.AspNetCore.Mvc;
 
-namespace backend.Repositories
+namespace backend.Repositories.Interfaces
 {
     public interface IAccountRepository
     {
@@ -9,5 +10,7 @@ namespace backend.Repositories
         Task<Account?> GetByIdAsync(int id);
 
         Task AddAccountAsync(Account account);
+
+        Task<ActionResult<IEnumerable<Account>>> GetAllAccounts();
     }
 }
