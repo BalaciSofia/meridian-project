@@ -1,5 +1,6 @@
 ﻿using backend.Models;
 using backend.Repositories;
+using backend.Repositories.Interfaces;
 using backend.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -8,9 +9,9 @@ namespace backend.Services
 {
     public class ReactsService : IReactsService
     {
-        private readonly ReactsRepository _reactsRepository;
+        private readonly IReactsRepository _reactsRepository;
 
-        public ReactsService(ReactsRepository reactsRepository)
+        public ReactsService(IReactsRepository reactsRepository)
         {
             _reactsRepository = reactsRepository;
         }

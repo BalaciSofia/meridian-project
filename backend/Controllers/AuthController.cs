@@ -1,6 +1,7 @@
 ﻿using backend.DTOs;
 using backend.Services;
 using backend.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
@@ -29,6 +30,7 @@ namespace backend.Controllers
             return Ok(response);
         }
 
+        [Authorize(Roles = "HR,Admin")]
         [HttpPost("new-employee")]
         public async Task<IActionResult> Register(CreateAccountRequest request)
         {

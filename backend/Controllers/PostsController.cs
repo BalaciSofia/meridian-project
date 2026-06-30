@@ -2,6 +2,7 @@
 using backend.Models;
 using backend.Services;
 using backend.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,6 +21,7 @@ namespace backend.Controllers
             this._reactsService = reactsService;
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Post>>> GetPosts()
         {
@@ -27,6 +29,7 @@ namespace backend.Controllers
             return Ok(res);
         }
 
+        [Authorize(Roles = "HR,Admin")]
         [HttpPost]
         public async Task<IActionResult> AddPost(Post post)
         {
@@ -34,13 +37,15 @@ namespace backend.Controllers
             return Created();
         }
 
-        [HttpGet("/react/{id}")]
+        [Authorize]
+        [HttpGet("/{id}/reacts")]
         public async Task<ActionResult<IEnumerable<React>>> GetReactsForPost(int id)
         {
             var res= await _reactsService.GetAllReactsForPost(id);
             return Ok(res);
         }
 
+        [Authorize]
         [HttpPost("/react")]
         public async Task<IActionResult> AddReact(React react)
         {

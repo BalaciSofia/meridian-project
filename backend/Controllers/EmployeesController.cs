@@ -2,6 +2,7 @@
 using backend.Models;
 using backend.Services;
 using backend.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,6 +19,7 @@ namespace backend.Controllers
             _employeesService = employeesService;
         }
 
+        [Authorize(Roles = "HR,Admin")]
         [HttpGet("employees")]
         public async Task<ActionResult<IEnumerable<Account>>> GetEmployees()
         {
@@ -25,6 +27,7 @@ namespace backend.Controllers
             return Ok(response);
         }
 
+        [Authorize(Roles = "HR,Admin")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetEmployee(int id)
         {
