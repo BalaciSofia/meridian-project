@@ -21,7 +21,7 @@ namespace backend.Controllers
         public async Task<ActionResult<IEnumerable<Account>>> GetEmployees()
         {
             var response = await _employeesService.GetAccounts();
-            return response;
+            return Ok(response);
         }
 
         [HttpGet("{id}")]

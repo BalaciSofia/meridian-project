@@ -32,8 +32,7 @@ namespace backend.Controllers
         public async Task<IActionResult> Register(CreateAccountRequest request)
         {
             await _authService.AddAccountAsync(request);
-
-            return NoContent();
+            return Created();
         }
     }
 }
