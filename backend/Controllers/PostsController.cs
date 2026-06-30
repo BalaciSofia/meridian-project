@@ -38,7 +38,7 @@ namespace backend.Controllers
         }
 
         [Authorize]
-        [HttpGet("/{id}/reacts")]
+        [HttpGet("{id}/reacts")]
         public async Task<ActionResult<IEnumerable<React>>> GetReactsForPost(int id)
         {
             var res= await _reactsService.GetAllReactsForPost(id);
@@ -46,7 +46,7 @@ namespace backend.Controllers
         }
 
         [Authorize]
-        [HttpPost("/react")]
+        [HttpPost("react")]
         public async Task<IActionResult> AddReact(React react)
         {
             await _reactsService.AddReact(react);
