@@ -33,7 +33,7 @@ namespace backend.Repositories
             await _context.Accounts.AddAsync(account);
             await _context.SaveChangesAsync();
         }
-        public async Task<ActionResult<IEnumerable<Account>>> GetAllAccounts()
+        public async Task<IEnumerable<Account>> GetAllAccounts()
         {
             return await _context.Accounts.ToListAsync();
         }

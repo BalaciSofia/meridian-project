@@ -1,10 +1,11 @@
 ﻿using backend.Models;
 using backend.Repositories.Interfaces;
+using backend.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Services
 {
-    public class EmployeesService
+    public class EmployeesService : IEmployeesService
     {
         private readonly IAccountRepository _accountRepository;
 
@@ -13,7 +14,7 @@ namespace backend.Services
             _accountRepository = accountRepository;
         }
 
-        public async Task<ActionResult<IEnumerable<Account>>> GetAccounts()
+        public async Task<IEnumerable<Account>> GetAccounts()
         {
             return await _accountRepository.GetAllAccounts();
         }

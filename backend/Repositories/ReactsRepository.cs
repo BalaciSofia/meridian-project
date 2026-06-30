@@ -1,5 +1,6 @@
 ﻿using backend.Data;
 using backend.Models;
+using backend.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
@@ -7,7 +8,7 @@ using Microsoft.Identity.Client;
 
 namespace backend.Repositories
 {
-    public class ReactsRepository
+    public class ReactsRepository : IReactsRepository
     {
         private readonly AppDbContext _context;
 
@@ -16,7 +17,7 @@ namespace backend.Repositories
             _context = context;
         }
 
-        public async Task<ActionResult<IEnumerable<React>>> GetAllReactsForPost(int postId)
+        public async Task<IEnumerable<React>> GetAllReactsForPost(int postId)
         {
             return await _context.Reacts
                    .Where(r => r.PostId == postId)
@@ -24,26 +25,27 @@ namespace backend.Repositories
         }
         public async Task<React?> FindReactByPostIdAndAccountId(int postId, int accountId)
         {
-            return await _context.Reacts.FindAsync(postId, accountId);
+            return await _context.Reacts.FirstOrDefaultAsync(r=>r.PostId==postId && r.AccountId==accountId);
         }
 
         public async Task AddReact(React react)
         {
-                await _context.Reacts.AddAsync(react);
-                await _context.SaveChangesAsync();
+            await _context.Reacts.AddAsync(react);
+            await _context.SaveChangesAsync();
         }
 
         public async Task RemoveReact(int postId, int accountId)
         {
             await _context.Reacts
-                .Where(r=>r.PostId == postId && r.AccountId == accountId)
+                .Where(r => r.PostId == postId && r.AccountId == accountId)
                 .ExecuteDeleteAsync();
         }
 
-        public async Task UpdateReact(React react) {
+        public async Task UpdateReact(React react)
+        {
             await _context.Reacts
                 .Where(r => r.PostId == react.PostId && r.AccountId == react.AccountId)
-                .ExecuteUpdateAsync(setters=>setters.SetProperty(r=>r.ReactType,react.ReactType));
+                .ExecuteUpdateAsync(setters => setters.SetProperty(r => r.ReactType, react.ReactType));
         }
 
 

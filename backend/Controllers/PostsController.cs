@@ -1,6 +1,7 @@
 ﻿using backend.DTOs;
 using backend.Models;
 using backend.Services;
+using backend.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,10 +11,10 @@ namespace backend.Controllers
     [ApiController]
     public class PostsController : ControllerBase
     {
-        private readonly PostService _postService;
-        private readonly ReactsService _reactsService;
+        private readonly IPostService _postService;
+        private readonly IReactsService _reactsService;
 
-        public PostsController(PostService postService, ReactsService reactsService)
+        public PostsController(IPostService postService, IReactsService reactsService)
         {
             this._postService = postService;
             this._reactsService = reactsService;
@@ -34,9 +35,9 @@ namespace backend.Controllers
         }
 
         [HttpGet("/react/{id}")]
-        public async Task<ActionResult<IEnumerable<React>>> GetReactsForPost(int postId)
+        public async Task<ActionResult<IEnumerable<React>>> GetReactsForPost(int id)
         {
-            var res= await _reactsService.GetAllReactsForPost(postId);
+            var res= await _reactsService.GetAllReactsForPost(id);
             return Ok(res);
         }
 

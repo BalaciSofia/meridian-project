@@ -1,6 +1,7 @@
 using backend.DTOs;
 using backend.Models;
 using backend.Repositories.Interfaces;
+using backend.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -9,7 +10,7 @@ using System.Text;
 
 namespace backend.Services
 {
-    public class AuthService
+    public class AuthService : IAuthService
     {
         private readonly IAccountRepository _accountRepository;
         private readonly IConfiguration _configuration;

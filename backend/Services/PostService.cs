@@ -1,10 +1,11 @@
 ﻿using backend.Models;
 using backend.Repositories.Interfaces;
+using backend.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Services
 {
-    public class PostService
+    public class PostService : IPostService
     {
         private readonly IPostRepository _postRepository;
 
@@ -13,7 +14,7 @@ namespace backend.Services
             _postRepository = postRepository;
         }
 
-        public async Task<ActionResult<IEnumerable<Post>>> GetAllPosts()
+        public async Task<IEnumerable<Post>> GetAllPosts()
         {
             return await _postRepository.GetAllPosts();
         }

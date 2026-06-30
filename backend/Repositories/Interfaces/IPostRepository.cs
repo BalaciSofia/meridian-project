@@ -6,7 +6,7 @@ namespace backend.Repositories.Interfaces
 {
     public interface IPostRepository
     {
-        Task<ActionResult<IEnumerable<Post>>> GetAllPosts();
+        Task<IEnumerable<Post>> GetAllPosts();
         Task AddPost(Post post);
     }
 }

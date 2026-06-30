@@ -15,7 +15,7 @@ namespace backend.Repositories
             _context = context;
         }
 
-        public async Task<ActionResult<IEnumerable<Post>>> GetAllPosts()
+        public async Task<IEnumerable<Post>> GetAllPosts()
         {
             return await _context.Posts.ToListAsync();
         }

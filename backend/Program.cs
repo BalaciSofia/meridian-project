@@ -2,6 +2,7 @@ using backend.Data;
 using backend.Repositories;
 using backend.Repositories.Interfaces;
 using backend.Services;
+using backend.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -30,9 +31,12 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddScoped<IPostRepository, PostRepository>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
-builder.Services.AddScoped<AuthService>();
-builder.Services.AddScoped<EmployeesService>();
-builder.Services.AddScoped<PostService>();
+builder.Services.AddScoped<IReactsRepository, ReactsRepository>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IEmployeesService, EmployeesService>();
+builder.Services.AddScoped<IPostService, PostService>();
+builder.Services.AddScoped<IReactsService, ReactsService>();
+
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>

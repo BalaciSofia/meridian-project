@@ -1,6 +1,7 @@
 ﻿using Azure.Core;
 using backend.Models;
 using backend.Services;
+using backend.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,9 +11,9 @@ namespace backend.Controllers
     [ApiController]
     public class EmployeesController : ControllerBase
     {
-        private readonly EmployeesService _employeesService;
+        private readonly IEmployeesService _employeesService;
 
-        public EmployeesController (EmployeesService employeesService)
+        public EmployeesController (IEmployeesService employeesService)
         {
             _employeesService = employeesService;
         }
