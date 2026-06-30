@@ -22,5 +22,16 @@ namespace backend.Controllers
             var response = await _employeesService.GetAccounts();
             return NoContent();
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetEmployee(int id)
+        {
+            var response = await _employeesService.GetAccountById(id);
+            if (response == null)
+            {
+                return NotFound();
+            }
+            return Ok(response);
+        }
     }
 }

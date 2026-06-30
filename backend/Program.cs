@@ -28,8 +28,10 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services.AddScoped<IPostRepository, PostRepository>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<EmployeesService>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>

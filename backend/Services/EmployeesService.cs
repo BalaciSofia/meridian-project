@@ -17,5 +17,10 @@ namespace backend.Services
         {
             return await _accountRepository.GetAllAccounts();
         }
+
+        public async Task<Account?> GetAccountById(int id)
+        {
+            return await _accountRepository.GetByIdAsync(id);
+        }
     }
 }
