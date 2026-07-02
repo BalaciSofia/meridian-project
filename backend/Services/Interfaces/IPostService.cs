@@ -1,10 +1,11 @@
-﻿using backend.Models;
+using backend.DTOs;
 
 namespace backend.Services.Interfaces
 {
     public interface IPostService
     {
-        Task AddPost(Post post);
-        Task<IEnumerable<Post>> GetAllPosts();
+        Task AddPost(CreatePostRequest request);
+
+        Task<IEnumerable<PostResponse>> GetAllPosts();
     }
 }

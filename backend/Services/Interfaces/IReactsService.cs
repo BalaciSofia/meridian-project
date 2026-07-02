@@ -1,10 +1,11 @@
-﻿using backend.Models;
+using backend.DTOs;
 
 namespace backend.Services.Interfaces
 {
     public interface IReactsService
     {
-        Task AddReact(React react);
-        Task<IEnumerable<React>> GetAllReactsForPost(int postId);
+        Task AddReact(int postId, CreateReactRequest request);
+
+        Task<IEnumerable<ReactResponse>> GetAllReactsForPost(int postId);
     }
 }

@@ -1,7 +1,6 @@
 using backend.Data;
 using backend.Models;
 using backend.Repositories.Interfaces;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Repositories
@@ -25,7 +24,10 @@ namespace backend.Repositories
 
         public async Task<Account?> GetByIdAsync(int id)
         {
-            return await _context.Accounts.FindAsync(id);
+            return await _context.Accounts
+                .Include(a => a.Role)
+                .Include(a => a.Department)
+                .FirstOrDefaultAsync(a => a.Id == id);
         }
 
         public async Task AddAccountAsync(Account account)
@@ -35,7 +37,10 @@ namespace backend.Repositories
         }
         public async Task<IEnumerable<Account>> GetAllAccounts()
         {
-            return await _context.Accounts.ToListAsync();
+            return await _context.Accounts
+                .Include(a => a.Role)
+                .Include(a => a.Department)
+                .ToListAsync();
         }
 
     }

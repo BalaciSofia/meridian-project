@@ -1,9 +1,6 @@
-﻿using backend.DTOs;
-using backend.Models;
-using backend.Services;
+using backend.DTOs;
 using backend.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
@@ -17,41 +14,40 @@ namespace backend.Controllers
 
         public PostsController(IPostService postService, IReactsService reactsService)
         {
-            this._postService = postService;
-            this._reactsService = reactsService;
+            _postService = postService;
+            _reactsService = reactsService;
         }
 
         [Authorize]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Post>>> GetPosts()
+        public async Task<ActionResult<IEnumerable<PostResponse>>> GetPosts()
         {
-            var res = await _postService.GetAllPosts();
-            return Ok(res);
+            var response = await _postService.GetAllPosts();
+            return Ok(response);
         }
 
         [Authorize(Roles = "HR,Admin")]
         [HttpPost]
-        public async Task<IActionResult> AddPost(Post post)
+        public async Task<IActionResult> AddPost(CreatePostRequest request)
         {
-            await _postService.AddPost(post);
+            await _postService.AddPost(request);
             return Created();
         }
 
         [Authorize]
-        [HttpGet("{id}/reacts")]
-        public async Task<ActionResult<IEnumerable<React>>> GetReactsForPost(int id)
+        [HttpGet("{postId}/reacts")]
+        public async Task<ActionResult<IEnumerable<ReactResponse>>> GetReactsForPost(int postId)
         {
-            var res= await _reactsService.GetAllReactsForPost(id);
-            return Ok(res);
+            var response = await _reactsService.GetAllReactsForPost(postId);
+            return Ok(response);
         }
 
         [Authorize]
-        [HttpPost("react")]
-        public async Task<IActionResult> AddReact(React react)
+        [HttpPost("{postId}/reacts")]
+        public async Task<IActionResult> AddReact(int postId, CreateReactRequest request)
         {
-            await _reactsService.AddReact(react);
+            await _reactsService.AddReact(postId, request);
             return Created();
         }
-
     }
 }

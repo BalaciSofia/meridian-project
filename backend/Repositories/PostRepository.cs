@@ -1,7 +1,6 @@
-﻿using backend.Data;
+using backend.Data;
 using backend.Models;
 using backend.Repositories.Interfaces;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Repositories
@@ -17,7 +16,9 @@ namespace backend.Repositories
 
         public async Task<IEnumerable<Post>> GetAllPosts()
         {
-            return await _context.Posts.ToListAsync();
+            return await _context.Posts
+                .Include(p => p.CreatedByAccount)
+                .ToListAsync();
         }
 
         public async Task AddPost(Post post)

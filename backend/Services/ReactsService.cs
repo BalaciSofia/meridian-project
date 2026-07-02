@@ -1,9 +1,7 @@
-﻿using backend.Models;
-using backend.Repositories;
+using backend.DTOs;
+using backend.Models;
 using backend.Repositories.Interfaces;
 using backend.Services.Interfaces;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace backend.Services
 {
@@ -16,17 +14,30 @@ namespace backend.Services
             _reactsRepository = reactsRepository;
         }
 
-        public async Task<IEnumerable<React>> GetAllReactsForPost(int postId)
+        public async Task<IEnumerable<ReactResponse>> GetAllReactsForPost(int postId)
         {
-            return await _reactsRepository.GetAllReactsForPost(postId);
+            var reacts = await _reactsRepository.GetAllReactsForPost(postId);
+
+            return reacts.Select(MapToReactResponse);
         }
 
-        public async Task AddReact(React react)
+        public async Task AddReact(int postId, CreateReactRequest request)
         {
-            React? r = await _reactsRepository.FindReactByPostIdAndAccountId(react.PostId, react.AccountId);
-            if (r != null)
+            var react = new React
             {
-                if (react.ReactType == r.ReactType)
+                PostId = postId,
+                AccountId = request.AccountId,
+                ReactType = request.ReactType
+            };
+
+            React? existingReact = await _reactsRepository.FindReactByPostIdAndAccountId(
+                react.PostId,
+                react.AccountId
+            );
+
+            if (existingReact != null)
+            {
+                if (react.ReactType == existingReact.ReactType)
                 {
                     await _reactsRepository.RemoveReact(react.PostId, react.AccountId);
                 }
@@ -39,6 +50,17 @@ namespace backend.Services
             {
                 await _reactsRepository.AddReact(react);
             }
+        }
+
+        private static ReactResponse MapToReactResponse(React react)
+        {
+            return new ReactResponse
+            {
+                Id = react.Id,
+                PostId = react.PostId,
+                AccountId = react.AccountId,
+                ReactType = react.ReactType
+            };
         }
     }
 }

@@ -1,7 +1,7 @@
-﻿using backend.Models;
+using backend.DTOs;
+using backend.Models;
 using backend.Repositories.Interfaces;
 using backend.Services.Interfaces;
-using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Services
 {
@@ -14,14 +14,37 @@ namespace backend.Services
             _accountRepository = accountRepository;
         }
 
-        public async Task<IEnumerable<Account>> GetAccounts()
+        public async Task<IEnumerable<EmployeeResponse>> GetAccounts()
         {
-            return await _accountRepository.GetAllAccounts();
+            var accounts = await _accountRepository.GetAllAccounts();
+
+            return accounts.Select(MapToEmployeeResponse);
         }
 
-        public async Task<Account?> GetAccountById(int id)
+        public async Task<EmployeeResponse?> GetAccountById(int id)
         {
-            return await _accountRepository.GetByIdAsync(id);
+            var account = await _accountRepository.GetByIdAsync(id);
+
+            if (account == null)
+            {
+                return null;
+            }
+
+            return MapToEmployeeResponse(account);
+        }
+
+        private static EmployeeResponse MapToEmployeeResponse(Account account)
+        {
+            return new EmployeeResponse
+            {
+                Id = account.Id,
+                Email = account.Email,
+                FirstName = account.FirstName,
+                LastName = account.LastName,
+                Role = account.Role.RoleName,
+                Department = account.Department.DepartmentName,
+                MustChangePassword = account.MustChangePassword
+            };
         }
     }
 }
