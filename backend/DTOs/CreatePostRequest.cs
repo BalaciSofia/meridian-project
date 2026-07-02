@@ -7,7 +7,5 @@ namespace backend.DTOs
         public string Content { get; init; } = string.Empty;
 
         public string? ImageUrl { get; init; }
-
-        public int CreatedByAccountId { get; init; }
     }
 }

@@ -9,6 +9,7 @@ namespace backend.Mapping
     {
         [MapperIgnoreTarget(nameof(Post.Id))]
         [MapperIgnoreTarget(nameof(Post.CreatedAt))]
+        [MapperIgnoreTarget(nameof(Post.CreatedByAccountId))]
         [MapperIgnoreTarget(nameof(Post.CreatedByAccount))]
         public partial Post ToEntity(CreatePostRequest request);
 

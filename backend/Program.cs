@@ -33,13 +33,16 @@ builder.Services.AddCors(options =>
 builder.Services.AddScoped<IPostRepository, PostRepository>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<IReactsRepository, ReactsRepository>();
+builder.Services.AddScoped<ICommentsRepository, CommentsRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IEmployeesService, EmployeesService>();
 builder.Services.AddScoped<IPostService, PostService>();
 builder.Services.AddScoped<IReactsService, ReactsService>();
+builder.Services.AddScoped<ICommentsService, CommentsService>();
 builder.Services.AddScoped<AccountMapper>();
 builder.Services.AddScoped<PostMapper>();
 builder.Services.AddScoped<ReactMapper>();
+builder.Services.AddScoped<CommentMapper>();
 
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

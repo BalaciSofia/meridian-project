@@ -10,6 +10,7 @@ namespace backend.Mapping
         [MapperIgnoreTarget(nameof(React.Id))]
         [MapperIgnoreTarget(nameof(React.PostId))]
         [MapperIgnoreTarget(nameof(React.Post))]
+        [MapperIgnoreTarget(nameof(React.AccountId))]
         [MapperIgnoreTarget(nameof(React.Account))]
         public partial React ToEntity(CreateReactRequest request);
 
