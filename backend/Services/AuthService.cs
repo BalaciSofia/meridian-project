@@ -62,6 +62,33 @@ namespace backend.Services
             };
         }
 
+        public async Task<bool> ChangePasswordAsync(int accountId, string currentPassword, string newPassword)
+        {
+            var account = await _accountRepository.GetByIdAsync(accountId);
+
+            if (account == null)
+            {
+                return false;
+            }
+
+            var result = _passwordHasher.VerifyHashedPassword(
+                account,
+                account.PasswordHash,
+                currentPassword
+            );
+
+            if (result == PasswordVerificationResult.Failed)
+            {
+                return false;
+            }
+
+            account.PasswordHash = _passwordHasher.HashPassword(account, newPassword);
+            account.MustChangePassword = false;
+
+            await _accountRepository.UpdateAccountAsync(account);
+            return true;
+        }
+
         private string GenerateJwtToken(Account account)
         {
             var claims = new List<Claim>

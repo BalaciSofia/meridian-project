@@ -11,6 +11,8 @@ namespace backend.Repositories.Interfaces
 
         Task AddAccountAsync(Account account);
 
+        Task UpdateAccountAsync(Account account);
+
         Task<IEnumerable<Account>> GetAllAccounts();
     }
 }

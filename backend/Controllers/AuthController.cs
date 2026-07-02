@@ -3,6 +3,7 @@ using backend.Mapping;
 using backend.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace backend.Controllers
 {
@@ -40,6 +41,29 @@ namespace backend.Controllers
 
             await _authService.AddAccountAsync(account);
             return Created();
+        }
+
+        [Authorize]
+        [HttpPut("change-password")]
+        public async Task<IActionResult> ChangePassword(ChangePasswordRequest request)
+        {
+            var accountId = GetCurrentAccountId();
+            var passwordChanged = await _authService.ChangePasswordAsync(
+                accountId,
+                request.CurrentPassword,
+                request.NewPassword);
+
+            if (!passwordChanged)
+            {
+                return BadRequest("Current password is incorrect.");
+            }
+
+            return NoContent();
+        }
+
+        private int GetCurrentAccountId()
+        {
+            return int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
         }
     }
 }

@@ -35,6 +35,13 @@ namespace backend.Repositories
             await _context.Accounts.AddAsync(account);
             await _context.SaveChangesAsync();
         }
+
+        public async Task UpdateAccountAsync(Account account)
+        {
+            _context.Accounts.Update(account);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<IEnumerable<Account>> GetAllAccounts()
         {
             return await _context.Accounts

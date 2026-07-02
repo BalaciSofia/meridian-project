@@ -8,5 +8,7 @@ namespace backend.Services.Interfaces
         Task AddAccountAsync(Account account);
 
         Task<LoginResponse?> LoginAsync(string email, string password);
+
+        Task<bool> ChangePasswordAsync(int accountId, string currentPassword, string newPassword);
     }
 }
