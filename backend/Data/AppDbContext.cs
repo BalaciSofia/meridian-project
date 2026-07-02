@@ -40,6 +40,10 @@ namespace backend.Data
                 .HasIndex(r => new { r.PostId, r.AccountId })
                 .IsUnique();
 
+            modelBuilder.Entity<WorkSchedule>()
+                .HasIndex(ws => new { ws.AccountId, ws.Date })
+                .IsUnique();
+
             modelBuilder.Entity<Comment>()
                 .HasOne(c => c.Post)
                 .WithMany()
