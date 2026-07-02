@@ -1,9 +1,9 @@
 namespace backend.DTOs
 {
-    public class CreateReactRequest
+    public record CreateReactRequest
     {
-        public int AccountId { get; set; }
+        public int AccountId { get; init; }
 
-        public string ReactType { get; set; } = string.Empty;
+        public string ReactType { get; init; } = string.Empty;
     }
 }

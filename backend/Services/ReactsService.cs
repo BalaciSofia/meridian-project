@@ -1,4 +1,3 @@
-using backend.DTOs;
 using backend.Models;
 using backend.Repositories.Interfaces;
 using backend.Services.Interfaces;
@@ -14,22 +13,13 @@ namespace backend.Services
             _reactsRepository = reactsRepository;
         }
 
-        public async Task<IEnumerable<ReactResponse>> GetAllReactsForPost(int postId)
+        public async Task<IEnumerable<React>> GetAllReactsForPost(int postId)
         {
-            var reacts = await _reactsRepository.GetAllReactsForPost(postId);
-
-            return reacts.Select(MapToReactResponse);
+            return await _reactsRepository.GetAllReactsForPost(postId);
         }
 
-        public async Task AddReact(int postId, CreateReactRequest request)
+        public async Task AddReact(React react)
         {
-            var react = new React
-            {
-                PostId = postId,
-                AccountId = request.AccountId,
-                ReactType = request.ReactType
-            };
-
             React? existingReact = await _reactsRepository.FindReactByPostIdAndAccountId(
                 react.PostId,
                 react.AccountId
@@ -50,17 +40,6 @@ namespace backend.Services
             {
                 await _reactsRepository.AddReact(react);
             }
-        }
-
-        private static ReactResponse MapToReactResponse(React react)
-        {
-            return new ReactResponse
-            {
-                Id = react.Id,
-                PostId = react.PostId,
-                AccountId = react.AccountId,
-                ReactType = react.ReactType
-            };
         }
     }
 }

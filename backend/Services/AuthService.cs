@@ -22,26 +22,16 @@ namespace backend.Services
             _configuration = configuration;
         }
 
-        public async Task AddAccountAsync(CreateAccountRequest request)
+        public async Task AddAccountAsync(Account account)
         {
-            var account = new Account
-            {
-                Email = request.Email,
-                FirstName = request.FirstName,
-                LastName = request.LastName,
-                RoleId = request.RoleId,
-                DepartmentId = request.DepartmentId,
-                MustChangePassword = request.MustChangePassword
-            };
-
-            account.PasswordHash = _passwordHasher.HashPassword(account, request.Password);
+            account.PasswordHash = _passwordHasher.HashPassword(account, account.PasswordHash);
 
             await _accountRepository.AddAccountAsync(account);
         }
 
-        public async Task<LoginResponse?> LoginAsync(LoginRequest request)
+        public async Task<LoginResponse?> LoginAsync(string email, string password)
         {
-            var account = await _accountRepository.GetByEmailWithRoleAndDepartmentAsync(request.Email);
+            var account = await _accountRepository.GetByEmailWithRoleAndDepartmentAsync(email);
 
             if (account == null)
             {
@@ -51,7 +41,7 @@ namespace backend.Services
             var result = _passwordHasher.VerifyHashedPassword(
                 account,
                 account.PasswordHash,
-                request.Password
+                password
             );
 
             if (result == PasswordVerificationResult.Failed)

@@ -1,10 +1,12 @@
-﻿using backend.DTOs;
+using backend.DTOs;
+using backend.Models;
 
 namespace backend.Services.Interfaces
 {
     public interface IAuthService
     {
-        Task AddAccountAsync(CreateAccountRequest request);
-        Task<LoginResponse?> LoginAsync(LoginRequest request);
+        Task AddAccountAsync(Account account);
+
+        Task<LoginResponse?> LoginAsync(string email, string password);
     }
 }

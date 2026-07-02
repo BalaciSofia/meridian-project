@@ -1,11 +1,11 @@
-using backend.DTOs;
+using backend.Models;
 
 namespace backend.Services.Interfaces
 {
     public interface IEmployeesService
     {
-        Task<EmployeeResponse?> GetAccountById(int id);
+        Task<Account?> GetAccountById(int id);
 
-        Task<IEnumerable<EmployeeResponse>> GetAccounts();
+        Task<IEnumerable<Account>> GetAccounts();
     }
 }

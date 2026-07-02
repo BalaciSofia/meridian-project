@@ -1,13 +1,13 @@
 namespace backend.DTOs
 {
-    public class CreatePostRequest
+    public record CreatePostRequest
     {
-        public string Title { get; set; } = string.Empty;
+        public string Title { get; init; } = string.Empty;
 
-        public string Content { get; set; } = string.Empty;
+        public string Content { get; init; } = string.Empty;
 
-        public string? ImageUrl { get; set; }
+        public string? ImageUrl { get; init; }
 
-        public int CreatedByAccountId { get; set; }
+        public int CreatedByAccountId { get; init; }
     }
 }

@@ -1,4 +1,5 @@
 using backend.DTOs;
+using backend.Mapping;
 using backend.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,18 +12,28 @@ namespace backend.Controllers
     {
         private readonly IPostService _postService;
         private readonly IReactsService _reactsService;
+        private readonly PostMapper _postMapper;
+        private readonly ReactMapper _reactMapper;
 
-        public PostsController(IPostService postService, IReactsService reactsService)
+        public PostsController(
+            IPostService postService,
+            IReactsService reactsService,
+            PostMapper postMapper,
+            ReactMapper reactMapper)
         {
             _postService = postService;
             _reactsService = reactsService;
+            _postMapper = postMapper;
+            _reactMapper = reactMapper;
         }
 
         [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PostResponse>>> GetPosts()
         {
-            var response = await _postService.GetAllPosts();
+            var posts = await _postService.GetAllPosts();
+            var response = _postMapper.ToResponses(posts);
+
             return Ok(response);
         }
 
@@ -30,7 +41,9 @@ namespace backend.Controllers
         [HttpPost]
         public async Task<IActionResult> AddPost(CreatePostRequest request)
         {
-            await _postService.AddPost(request);
+            var post = _postMapper.ToEntity(request);
+
+            await _postService.AddPost(post);
             return Created();
         }
 
@@ -38,7 +51,9 @@ namespace backend.Controllers
         [HttpGet("{postId}/reacts")]
         public async Task<ActionResult<IEnumerable<ReactResponse>>> GetReactsForPost(int postId)
         {
-            var response = await _reactsService.GetAllReactsForPost(postId);
+            var reacts = await _reactsService.GetAllReactsForPost(postId);
+            var response = _reactMapper.ToResponses(reacts);
+
             return Ok(response);
         }
 
@@ -46,7 +61,10 @@ namespace backend.Controllers
         [HttpPost("{postId}/reacts")]
         public async Task<IActionResult> AddReact(int postId, CreateReactRequest request)
         {
-            await _reactsService.AddReact(postId, request);
+            var react = _reactMapper.ToEntity(request);
+            react.PostId = postId;
+
+            await _reactsService.AddReact(react);
             return Created();
         }
     }

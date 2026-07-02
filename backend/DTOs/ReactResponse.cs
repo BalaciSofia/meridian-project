@@ -1,13 +1,13 @@
 namespace backend.DTOs
 {
-    public class ReactResponse
+    public record ReactResponse
     {
-        public int Id { get; set; }
+        public int Id { get; init; }
 
-        public int PostId { get; set; }
+        public int PostId { get; init; }
 
-        public int AccountId { get; set; }
+        public int AccountId { get; init; }
 
-        public string ReactType { get; set; } = string.Empty;
+        public string ReactType { get; init; } = string.Empty;
     }
 }

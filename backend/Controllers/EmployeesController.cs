@@ -1,4 +1,5 @@
 using backend.DTOs;
+using backend.Mapping;
 using backend.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,17 +11,21 @@ namespace backend.Controllers
     public class EmployeesController : ControllerBase
     {
         private readonly IEmployeesService _employeesService;
+        private readonly AccountMapper _accountMapper;
 
-        public EmployeesController(IEmployeesService employeesService)
+        public EmployeesController(IEmployeesService employeesService, AccountMapper accountMapper)
         {
             _employeesService = employeesService;
+            _accountMapper = accountMapper;
         }
 
         [Authorize(Roles = "HR,Admin")]
         [HttpGet("employees")]
         public async Task<ActionResult<IEnumerable<EmployeeResponse>>> GetEmployees()
         {
-            var response = await _employeesService.GetAccounts();
+            var accounts = await _employeesService.GetAccounts();
+            var response = _accountMapper.ToEmployeeResponses(accounts);
+
             return Ok(response);
         }
 
@@ -28,12 +33,13 @@ namespace backend.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<EmployeeResponse>> GetEmployee(int id)
         {
-            var response = await _employeesService.GetAccountById(id);
-            if (response == null)
+            var account = await _employeesService.GetAccountById(id);
+            if (account == null)
             {
                 return NotFound();
             }
 
+            var response = _accountMapper.ToEmployeeResponse(account);
             return Ok(response);
         }
     }

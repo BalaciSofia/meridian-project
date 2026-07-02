@@ -1,19 +1,19 @@
 namespace backend.DTOs
 {
-    public class CreateAccountRequest
+    public record CreateAccountRequest
     {
-        public string Email { get; set; } = string.Empty;
+        public string Email { get; init; } = string.Empty;
 
-        public string FirstName { get; set; } = string.Empty;
+        public string FirstName { get; init; } = string.Empty;
 
-        public string LastName { get; set; } = string.Empty;
+        public string LastName { get; init; } = string.Empty;
 
-        public string Password { get; set; } = string.Empty;
+        public string Password { get; init; } = string.Empty;
 
-        public int RoleId { get; set; }
+        public int RoleId { get; init; }
 
-        public int DepartmentId { get; set; }
+        public int DepartmentId { get; init; }
 
-        public bool MustChangePassword { get; set; } = true;
+        public bool MustChangePassword { get; init; } = true;
     }
 }
