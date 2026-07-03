@@ -10,5 +10,7 @@ namespace backend.Services.Interfaces
         Task<LoginResponse?> LoginAsync(string email, string password);
 
         Task<bool> ChangePasswordAsync(int accountId, string currentPassword, string newPassword);
+
+        Task<Account?> GetCurrentAccountAsync(int accountId);
     }
 }

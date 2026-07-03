@@ -44,6 +44,22 @@ namespace backend.Controllers
         }
 
         [Authorize]
+        [HttpGet("me")]
+        public async Task<ActionResult<CurrentAccountResponse>> GetMe()
+        {
+            var accountId = GetCurrentAccountId();
+            var account = await _authService.GetCurrentAccountAsync(accountId);
+
+            if (account == null)
+            {
+                return NotFound();
+            }
+
+            var response = _accountMapper.ToCurrentAccountResponse(account);
+            return Ok(response);
+        }
+
+        [Authorize]
         [HttpPut("change-password")]
         public async Task<IActionResult> ChangePassword(ChangePasswordRequest request)
         {

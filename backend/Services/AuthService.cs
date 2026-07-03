@@ -13,12 +13,17 @@ namespace backend.Services
     public class AuthService : IAuthService
     {
         private readonly IAccountRepository _accountRepository;
+        private readonly IDocumentsRepository _documentsRepository;
         private readonly IConfiguration _configuration;
         private readonly PasswordHasher<Account> _passwordHasher = new();
 
-        public AuthService(IAccountRepository accountRepository, IConfiguration configuration)
+        public AuthService(
+            IAccountRepository accountRepository,
+            IDocumentsRepository documentsRepository,
+            IConfiguration configuration)
         {
             _accountRepository = accountRepository;
+            _documentsRepository = documentsRepository;
             _configuration = configuration;
         }
 
@@ -27,6 +32,7 @@ namespace backend.Services
             account.PasswordHash = _passwordHasher.HashPassword(account, account.PasswordHash);
 
             await _accountRepository.AddAccountAsync(account);
+            await AddRequiredDocumentsForAccount(account);
         }
 
         public async Task<LoginResponse?> LoginAsync(string email, string password)
@@ -87,6 +93,27 @@ namespace backend.Services
 
             await _accountRepository.UpdateAccountAsync(account);
             return true;
+        }
+
+        public async Task<Account?> GetCurrentAccountAsync(int accountId)
+        {
+            return await _accountRepository.GetByIdAsync(accountId);
+        }
+
+        private async Task AddRequiredDocumentsForAccount(Account account)
+        {
+            var documentTypes = await _documentsRepository.GetAllDocumentTypes();
+            var requiredDocumentTypes = documentTypes
+                .Where(dt => dt.RequiredForAll || dt.RequiredForDepartmentId == account.DepartmentId);
+
+            foreach (var documentType in requiredDocumentTypes)
+            {
+                await _documentsRepository.AddDocument(new Document
+                {
+                    AccountId = account.Id,
+                    DocumentTypeId = documentType.Id
+                });
+            }
         }
 
         private string GenerateJwtToken(Account account)
