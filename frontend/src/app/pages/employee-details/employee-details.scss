@@ -1,0 +1,105 @@
+.employee-details-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 36px 24px;
+}
+
+.back-link {
+  display: inline-flex;
+  margin-bottom: 20px;
+  color: #1799ad;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.back-link:hover {
+  color: #0f7f91;
+}
+
+.details-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 20px;
+  padding: 28px;
+  border: 1px solid #d9edf1;
+  border-radius: 20px;
+  background: #ffffff;
+  box-shadow: 0 14px 34px rgba(16, 88, 104, 0.1);
+}
+
+.avatar {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  background: #1799ad;
+  color: #ffffff;
+  font-size: 22px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  color: #17324d;
+  font-size: 32px;
+}
+
+.email {
+  margin: 8px 0 0;
+  color: #5f7280;
+  font-weight: 600;
+}
+
+dl {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin: 10px 0 0;
+}
+
+dl div {
+  padding: 16px;
+  border-radius: 14px;
+  background: #f7fbfc;
+}
+
+dt {
+  margin-bottom: 6px;
+  color: #5f7280;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+dd {
+  margin: 0;
+  color: #17324d;
+  font-weight: 800;
+}
+
+.state-message,
+.error-message {
+  margin: 0;
+  padding: 14px 16px;
+  border-radius: 12px;
+  font-weight: 700;
+}
+
+.state-message {
+  background: #eef8fa;
+  color: #1799ad;
+}
+
+.error-message {
+  background: #fff2eb;
+  color: #9c3f0f;
+}
+
+@media (max-width: 700px) {
+  .details-card,
+  dl {
+    grid-template-columns: 1fr;
+  }
+}

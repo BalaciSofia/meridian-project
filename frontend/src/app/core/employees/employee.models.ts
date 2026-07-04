@@ -8,3 +8,12 @@ export interface CreateEmployeeRequest {
   mustChangePassword: boolean;
 }
 
+export interface EmployeeResponse {
+  id: number;
+  email: string;
+  firstName: string;
+  lastName: string;
+  role: string;
+  department: string;
+  mustChangePassword: boolean;
+}

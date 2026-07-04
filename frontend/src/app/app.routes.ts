@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { Calendar } from './pages/calendar/calendar';
 import { Employees } from './pages/employees/employees';
+import { EmployeeDetails } from './pages/employee-details/employee-details';
 import { Home } from './pages/home/home';
 import { Login } from './pages/login/login';
 import { NewEmployee } from './pages/new-employee/new-employee';
@@ -46,6 +47,11 @@ export const routes: Routes = [
   {
     path: 'employees',
     component: Employees,
+    canActivate: [authGuard, passwordChangedGuard, hrOrAdminGuard],
+  },
+  {
+    path: 'employees/:id',
+    component: EmployeeDetails,
     canActivate: [authGuard, passwordChangedGuard, hrOrAdminGuard],
   },
 ];

@@ -1,0 +1,39 @@
+<main class="employee-details-page">
+  <a class="back-link" routerLink="/employees">Back to employees</a>
+
+  @if (isLoading()) {
+    <p class="state-message">Loading employee...</p>
+  } @else if (employee(); as employee) {
+    <section class="details-card">
+      <div class="avatar" aria-hidden="true">
+        {{ employee.firstName.charAt(0) }}{{ employee.lastName.charAt(0) }}
+      </div>
+
+      <div>
+        <h1>{{ employee.firstName }} {{ employee.lastName }}</h1>
+        <p class="email">{{ employee.email }}</p>
+      </div>
+
+      <dl>
+        <div>
+          <dt>Role</dt>
+          <dd>{{ employee.role }}</dd>
+        </div>
+
+        <div>
+          <dt>Department</dt>
+          <dd>{{ employee.department }}</dd>
+        </div>
+
+        <div>
+          <dt>Password status</dt>
+          <dd>{{ employee.mustChangePassword ? 'Must change password' : 'Password changed' }}</dd>
+        </div>
+      </dl>
+    </section>
+  }
+
+  @if (errorMessage()) {
+    <p class="error-message">{{ errorMessage() }}</p>
+  }
+</main>

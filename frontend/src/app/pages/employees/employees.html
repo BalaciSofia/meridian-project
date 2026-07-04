@@ -1,1 +1,52 @@
-<p>employees works!</p>
+<main class="employees-page">
+  <section class="page-header">
+    <div>
+      <h1>Employees</h1>
+    </div>
+
+    <a class="create-link" routerLink="/new-employee">New Employee</a>
+  </section>
+
+  @if (isLoading()) {
+    <p class="state-message">Loading employees...</p>
+  } @else if (employees().length > 0) {
+    <section class="employees-card">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Department</th>
+            <th>Password</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (employee of employees(); track employee.id) {
+            <tr>
+              <td>{{ employee.firstName }} {{ employee.lastName }}</td>
+              <td>{{ employee.email }}</td>
+              <td>{{ employee.role }}</td>
+              <td>{{ employee.department }}</td>
+              <td>
+                <span class="status" [class.status--warning]="employee.mustChangePassword">
+                  {{ employee.mustChangePassword ? 'Temporary' : 'Changed' }}
+                </span>
+              </td>
+              <td>
+                <a class="details-link" [routerLink]="['/employees', employee.id]">Details</a>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </section>
+  } @else {
+    <p class="state-message">No employees found.</p>
+  }
+
+  @if (errorMessage()) {
+    <p class="error-message">{{ errorMessage() }}</p>
+  }
+</main>
