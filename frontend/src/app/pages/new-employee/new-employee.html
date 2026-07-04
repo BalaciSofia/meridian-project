@@ -1,1 +1,63 @@
-<p>new-employee works!</p>
+<main class="new-employee-page">
+  <section class="page-header">
+    <h1>New Employee</h1>
+  </section>
+
+  <section class="form-card">
+    <form (ngSubmit)="createEmployee()">
+      <div class="form-grid">
+        <label>
+          First name
+          <input type="text" name="firstName" [(ngModel)]="firstName" required />
+        </label>
+
+        <label>
+          Last name
+          <input type="text" name="lastName" [(ngModel)]="lastName" required />
+        </label>
+      </div>
+
+      <label>
+        Email
+        <input type="email" name="email" [(ngModel)]="email" required />
+      </label>
+
+      <label>
+        Temporary password
+        <input type="text" name="password" [(ngModel)]="password" required />
+      </label>
+
+      <div class="form-grid">
+        <label>
+          Role
+          <select name="roleId" [(ngModel)]="roleId" required>
+            @for (role of roles(); track role.id) {
+              <option [ngValue]="role.id">{{ role.roleName }}</option>
+            }
+          </select>
+        </label>
+
+        <label>
+          Department
+          <select name="departmentId" [(ngModel)]="departmentId" required>
+            @for (department of departments(); track department.id) {
+              <option [ngValue]="department.id">{{ department.departmentName }}</option>
+            }
+          </select>
+        </label>
+      </div>
+
+      <button type="submit" [disabled]="isSaving()">
+        {{ isSaving() ? 'Creating...' : 'Create employee' }}
+      </button>
+    </form>
+
+    @if (successMessage()) {
+      <p class="success-message">{{ successMessage() }}</p>
+    }
+
+    @if (errorMessage()) {
+      <p class="error-message">{{ errorMessage() }}</p>
+    }
+  </section>
+</main>
