@@ -9,6 +9,7 @@ namespace backend.Repositories.Interfaces
         Task<IEnumerable<Document>> GetAllDocumentsForUser(int userId);
         Task<IEnumerable<DocumentType>> GetAllDocumentTypes();
         Task<Document?> GetDocumentById(int documentId);
+        Task<Document?> GetDocumentForUserByType(int userId, int documentTypeId);
         Task<IEnumerable<Document>> GetDocumentsToBeSubmitted(int userId);
         Task UpdateDocumentStatus(Document document);
     }

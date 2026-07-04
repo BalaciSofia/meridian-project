@@ -16,6 +16,8 @@ namespace backend.Services.Interfaces
 
         Task AddDocumentType(DocumentType documentType);
 
+        Task<bool> RequireDocumentForEmployee(int accountId, int documentTypeId);
+
         Task UpdateDocumentStatus(int documentId, string status);
 
         Task SubmitDocument(int documentId, string fileUrl);

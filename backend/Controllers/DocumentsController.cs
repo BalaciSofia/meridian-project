@@ -57,6 +57,22 @@ namespace backend.Controllers
         }
 
         [Authorize(Roles = "HR,Admin")]
+        [HttpPost("employee/{accountId}")]
+        public async Task<IActionResult> RequireDocumentForEmployee(
+            int accountId,
+            RequireDocumentForEmployeeRequest request)
+        {
+            var created = await _documentsService.RequireDocumentForEmployee(accountId, request.DocumentTypeId);
+
+            if (!created)
+            {
+                return Conflict("This document is already required for this employee.");
+            }
+
+            return Created();
+        }
+
+        [Authorize(Roles = "HR,Admin")]
         [HttpGet("types")]
         public async Task<ActionResult<IEnumerable<DocumentTypeResponse>>> GetDocumentTypes()
         {

@@ -53,5 +53,11 @@ namespace backend.Repositories
                 .Include(d => d.DocumentType)
                 .FirstOrDefaultAsync(d => d.Id == documentId);
         }
+
+        public async Task<Document?> GetDocumentForUserByType(int userId, int documentTypeId)
+        {
+            return await _context.Documents
+                .FirstOrDefaultAsync(d => d.AccountId == userId && d.DocumentTypeId == documentTypeId);
+        }
     }
 }

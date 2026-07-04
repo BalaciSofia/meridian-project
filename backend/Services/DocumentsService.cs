@@ -43,6 +43,24 @@ namespace backend.Services
             await _documentsRepository.AddDocumentType(documentType);
         }
 
+        public async Task<bool> RequireDocumentForEmployee(int accountId, int documentTypeId)
+        {
+            var existingDocument = await _documentsRepository.GetDocumentForUserByType(accountId, documentTypeId);
+
+            if (existingDocument != null)
+            {
+                return false;
+            }
+
+            await _documentsRepository.AddDocument(new Document
+            {
+                AccountId = accountId,
+                DocumentTypeId = documentTypeId
+            });
+
+            return true;
+        }
+
         public async Task UpdateDocumentStatus(int documentId, string status)
         {
             var document = await _documentsRepository.GetDocumentById(documentId);
