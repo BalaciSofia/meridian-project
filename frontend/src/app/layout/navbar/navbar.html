@@ -1,1 +1,15 @@
-<p>navbar works!</p>
+@if (authService.currentUser(); as user) {
+  <nav>
+    <a routerLink="/home">Home</a>
+    <a routerLink="/calendar">Calendar</a>
+    <a routerLink="/profile">My Profile</a>
+
+    @if (authService.isHrOrAdmin()) {
+      <a routerLink="/new-employee">New Employee</a>
+      <a routerLink="/employees">Employees</a>
+    }
+
+    <span>{{ user.email }}</span>
+    <button type="button" (click)="logout()">Logout</button>
+  </nav>
+}
