@@ -24,6 +24,17 @@ export class DocumentService {
     return this.http.post<void>(`${this.apiUrl}/types`, request);
   }
 
+  getMyDocuments(): Observable<DocumentResponse[]> {
+    return this.http.get<DocumentResponse[]>(`${this.apiUrl}/my`);
+  }
+
+  uploadDocument(documentId: number, file: File): Observable<void> {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    return this.http.post<void>(`${this.apiUrl}/${documentId}/upload`, formData);
+  }
+
   getDocumentsForEmployee(accountId: number): Observable<DocumentResponse[]> {
     return this.http.get<DocumentResponse[]>(`${this.apiUrl}/employee/${accountId}`);
   }

@@ -1,1 +1,87 @@
-<p>profile works!</p>
+<main class="profile-page">
+  <section class="page-header">
+    <h1>My Profile</h1>
+  </section>
+
+  @if (authService.currentUser(); as user) {
+    <section class="profile-card">
+      <div class="avatar" aria-hidden="true">
+        {{ user.firstName.charAt(0) }}{{ user.lastName.charAt(0) }}
+      </div>
+
+      <div>
+        <h2>{{ user.firstName }} {{ user.lastName }}</h2>
+        <p class="email">{{ user.email }}</p>
+      </div>
+
+      <dl>
+        <div>
+          <dt>Role</dt>
+          <dd>{{ user.role }}</dd>
+        </div>
+
+        <div>
+          <dt>Department</dt>
+          <dd>{{ user.department }}</dd>
+        </div>
+
+        <div>
+          <dt>Slack</dt>
+          <dd>
+            @if (user.departmentSlackLink) {
+              <a [href]="user.departmentSlackLink" target="_blank">Open department Slack</a>
+            } @else {
+              <span class="empty-value">No link</span>
+            }
+          </dd>
+        </div>
+      </dl>
+    </section>
+  }
+
+  @if (successMessage()) {
+    <p class="success-message">{{ successMessage() }}</p>
+  }
+
+  @if (errorMessage()) {
+    <p class="error-message">{{ errorMessage() }}</p>
+  }
+
+  <section class="documents-card">
+    <h2>My Documents</h2>
+
+    @if (isLoading()) {
+      <p class="state-message">Loading documents...</p>
+    } @else if (documents().length > 0) {
+      <div class="documents-list">
+        @for (document of documents(); track document.id) {
+          <article class="document-item">
+            <div>
+              <h3>{{ document.documentTypeName }}</h3>
+              <p>{{ document.documentTypeDescription }}</p>
+            </div>
+
+            <span class="document-status">{{ document.status }}</span>
+
+            <div class="document-actions">
+              @if (document.fileUrl) {
+                <a [href]="getFileUrl(document.fileUrl)" target="_blank">Open file</a>
+              }
+
+              <label class="upload-button">
+                {{ uploadingDocumentId() === document.id ? 'Uploading...' : 'Upload file' }}
+                <input
+                  type="file"
+                  [disabled]="uploadingDocumentId() === document.id"
+                  (change)="uploadDocument(document, $event)"
+                />
+              </label>
+            </div>
+          </article>
+        }
+      </div>
+    } @else {
+      <p class="state-message">No documents required.</p>
+    }
+  </section>
+</main>
