@@ -7,6 +7,10 @@ namespace backend.Mapping
     [Mapper]
     public partial class DocumentMapper
     {
+        [MapperIgnoreTarget(nameof(DocumentType.Id))]
+        [MapperIgnoreTarget(nameof(DocumentType.RequiredForDepartment))]
+        public partial DocumentType ToEntity(CreateDocumentTypeRequest request);
+
         [MapProperty("DocumentType.Name", nameof(DocumentResponse.DocumentTypeName))]
         [MapProperty("DocumentType.Description", nameof(DocumentResponse.DocumentTypeDescription))]
         [MapperIgnoreSource(nameof(Document.Account))]

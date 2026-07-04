@@ -14,6 +14,8 @@ namespace backend.Services.Interfaces
 
         Task AddDocument(Document document);
 
+        Task AddDocumentType(DocumentType documentType);
+
         Task UpdateDocumentStatus(int documentId, string status);
 
         Task SubmitDocument(int documentId, string fileUrl);

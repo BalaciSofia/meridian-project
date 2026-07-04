@@ -66,6 +66,16 @@ namespace backend.Controllers
             return Ok(response);
         }
 
+        [Authorize(Roles = "HR,Admin")]
+        [HttpPost("types")]
+        public async Task<IActionResult> AddDocumentType(CreateDocumentTypeRequest request)
+        {
+            var documentType = _documentMapper.ToEntity(request);
+
+            await _documentsService.AddDocumentType(documentType);
+            return Created();
+        }
+
         [HttpPost("{documentId}/upload")]
         public async Task<IActionResult> UploadDocument(int documentId, IFormFile file)
         {

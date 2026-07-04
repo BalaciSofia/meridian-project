@@ -34,6 +34,12 @@ namespace backend.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task AddDocumentType(DocumentType documentType)
+        {
+            await _context.DocumentTypes.AddAsync(documentType);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task UpdateDocumentStatus(Document document)
         {
             _context.Documents.Update(document);

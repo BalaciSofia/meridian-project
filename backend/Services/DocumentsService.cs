@@ -38,6 +38,11 @@ namespace backend.Services
             await _documentsRepository.AddDocument(document);
         }
 
+        public async Task AddDocumentType(DocumentType documentType)
+        {
+            await _documentsRepository.AddDocumentType(documentType);
+        }
+
         public async Task UpdateDocumentStatus(int documentId, string status)
         {
             var document = await _documentsRepository.GetDocumentById(documentId);
