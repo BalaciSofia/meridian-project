@@ -60,6 +60,7 @@
               <th>Description</th>
               <th>Status</th>
               <th>File</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -75,6 +76,31 @@
                     <a [href]="document.fileUrl" target="_blank">Open</a>
                   } @else {
                     <span class="empty-value">No file</span>
+                  }
+                </td>
+                <td>
+                  @if (document.status === 'submitted') {
+                    <div class="document-actions">
+                      <button
+                        type="button"
+                        class="approve-button"
+                        [disabled]="updatingDocumentId() === document.id"
+                        (click)="updateDocumentStatus(document, 'approved')"
+                      >
+                        Approve
+                      </button>
+
+                      <button
+                        type="button"
+                        class="reject-button"
+                        [disabled]="updatingDocumentId() === document.id"
+                        (click)="updateDocumentStatus(document, 'rejected')"
+                      >
+                        Reject
+                      </button>
+                    </div>
+                  } @else {
+                    <span class="empty-value">No action</span>
                   }
                 </td>
               </tr>

@@ -146,6 +146,35 @@ button:disabled {
   opacity: 0.65;
 }
 
+.document-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.approve-button,
+.reject-button {
+  min-height: 34px;
+  padding: 0 12px;
+  border-radius: 999px;
+  font-size: 13px;
+}
+
+.approve-button {
+  background: #1f9d68;
+}
+
+.approve-button:hover {
+  background: #188454;
+}
+
+.reject-button {
+  background: #d85c36;
+}
+
+.reject-button:hover {
+  background: #bf4c29;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;

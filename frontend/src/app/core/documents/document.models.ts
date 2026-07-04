@@ -26,3 +26,7 @@ export interface DocumentResponse {
 export interface RequireDocumentForEmployeeRequest {
   documentTypeId: number;
 }
+
+export interface UpdateDocumentStatusRequest {
+  status: string;
+}

@@ -22,6 +22,7 @@ export class EmployeeDetails implements OnInit {
   successMessage = signal('');
   isLoading = signal(true);
   isSavingDocument = signal(false);
+  updatingDocumentId = signal<number | null>(null);
   selectedDocumentTypeId: number | null = null;
 
   constructor(
@@ -92,6 +93,24 @@ export class EmployeeDetails implements OnInit {
           this.errorMessage.set('Could not require document.');
         },
       });
+  }
+
+  updateDocumentStatus(document: DocumentResponse, status: 'approved' | 'rejected'): void {
+    this.errorMessage.set('');
+    this.successMessage.set('');
+    this.updatingDocumentId.set(document.id);
+
+    this.documentService.updateDocumentStatus(document.id, { status }).subscribe({
+      next: () => {
+        this.successMessage.set(`Document ${status}.`);
+        this.updatingDocumentId.set(null);
+        this.loadEmployeeDocuments();
+      },
+      error: () => {
+        this.errorMessage.set('Could not update document status.');
+        this.updatingDocumentId.set(null);
+      },
+    });
   }
 
   private loadEmployeeDocuments(): void {

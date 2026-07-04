@@ -6,6 +6,7 @@ import {
   DocumentResponse,
   DocumentTypeResponse,
   RequireDocumentForEmployeeRequest,
+  UpdateDocumentStatusRequest,
 } from './document.models';
 
 @Injectable({
@@ -44,5 +45,9 @@ export class DocumentService {
     request: RequireDocumentForEmployeeRequest,
   ): Observable<void> {
     return this.http.post<void>(`${this.apiUrl}/employee/${accountId}`, request);
+  }
+
+  updateDocumentStatus(documentId: number, request: UpdateDocumentStatusRequest): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/${documentId}/status`, request);
   }
 }
