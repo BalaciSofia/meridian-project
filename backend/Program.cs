@@ -37,6 +37,7 @@ builder.Services.AddScoped<ICommentsRepository, CommentsRepository>();
 builder.Services.AddScoped<IEventsRepository, EventsRepository>();
 builder.Services.AddScoped<IWorkSchedulesRepository, WorkSchedulesRepository>();
 builder.Services.AddScoped<IDocumentsRepository, DocumentsRepository>();
+builder.Services.AddScoped<ILookupsRepository, LookupsRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IEmployeesService, EmployeesService>();
 builder.Services.AddScoped<IPostService, PostService>();
@@ -45,6 +46,7 @@ builder.Services.AddScoped<ICommentsService, CommentsService>();
 builder.Services.AddScoped<IEventsService, EventsService>();
 builder.Services.AddScoped<IWorkSchedulesService, WorkSchedulesService>();
 builder.Services.AddScoped<IDocumentsService, DocumentsService>();
+builder.Services.AddScoped<ILookupsService, LookupsService>();
 builder.Services.AddScoped<AccountMapper>();
 builder.Services.AddScoped<PostMapper>();
 builder.Services.AddScoped<ReactMapper>();
@@ -52,6 +54,7 @@ builder.Services.AddScoped<CommentMapper>();
 builder.Services.AddScoped<EventMapper>();
 builder.Services.AddScoped<WorkScheduleMapper>();
 builder.Services.AddScoped<DocumentMapper>();
+builder.Services.AddScoped<LookupMapper>();
 
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
