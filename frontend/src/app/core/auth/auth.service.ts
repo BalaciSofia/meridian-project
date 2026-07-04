@@ -1,7 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { Observable, tap } from 'rxjs';
-import { ChangePasswordRequest, LoginRequest, LoginResponse } from './auth.models';
+import {
+  ChangePasswordRequest,
+  CurrentAccountResponse,
+  LoginRequest,
+  LoginResponse,
+} from './auth.models';
 
 @Injectable({
   providedIn: 'root',
@@ -23,6 +28,10 @@ export class AuthService {
         this.currentUser.set(response);
       }),
     );
+  }
+
+  getMe(): Observable<CurrentAccountResponse> {
+    return this.http.get<CurrentAccountResponse>(`${this.apiUrl}/me`);
   }
 
   changePassword(request: ChangePasswordRequest): Observable<void> {
@@ -70,4 +79,3 @@ export class AuthService {
     return JSON.parse(userJson) as LoginResponse;
   }
 }
-

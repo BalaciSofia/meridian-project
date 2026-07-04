@@ -1,15 +1,25 @@
 @if (authService.currentUser(); as user) {
-  <nav>
-    <a routerLink="/home">Home</a>
-    <a routerLink="/calendar">Calendar</a>
-    <a routerLink="/profile">My Profile</a>
+  <nav class="navbar">
+    <a class="navbar__brand" routerLink="/home">Meridian</a>
 
-    @if (authService.isHrOrAdmin()) {
-      <a routerLink="/new-employee">New Employee</a>
-      <a routerLink="/employees">Employees</a>
-    }
+    <div class="navbar__links">
+      <a routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+      <a routerLink="/calendar" routerLinkActive="active">Calendar</a>
+      <a routerLink="/profile" routerLinkActive="active">My Profile</a>
 
-    <span>{{ user.email }}</span>
-    <button type="button" (click)="logout()">Logout</button>
+      @if (authService.isHrOrAdmin()) {
+        <a routerLink="/new-employee" routerLinkActive="active">New Employee</a>
+        <a routerLink="/employees" routerLinkActive="active">Employees</a>
+      }
+    </div>
+
+    <div class="navbar__account">
+      <div class="navbar__identity">
+        <span class="navbar__name">{{ user.firstName }} {{ user.lastName }}</span>
+        <span class="navbar__meta">{{ user.role }} · {{ user.department }}</span>
+      </div>
+
+      <button type="button" (click)="logout()">Logout</button>
+    </div>
   </nav>
 }
