@@ -29,6 +29,16 @@ namespace backend.Controllers
             return Ok(response);
         }
 
+        [Authorize]
+        [HttpGet("colleagues")]
+        public async Task<ActionResult<IEnumerable<EmployeeResponse>>> GetColleagues()
+        {
+            var accounts = await _employeesService.GetAccounts();
+            var response = _accountMapper.ToEmployeeResponses(accounts);
+
+            return Ok(response);
+        }
+
         [Authorize(Roles = "HR,Admin")]
         [HttpGet("{id}")]
         public async Task<ActionResult<EmployeeResponse>> GetEmployee(int id)
