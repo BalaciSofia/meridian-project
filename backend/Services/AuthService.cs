@@ -62,8 +62,11 @@ namespace backend.Services
                 Token = token,
                 AccountId = account.Id,
                 Email = account.Email,
+                FirstName = account.FirstName,
+                LastName = account.LastName,
                 Role = account.Role.RoleName,
                 Department = account.Department.DepartmentName,
+                DepartmentSlackLink = account.Department.SlackLink,
                 MustChangePassword = account.MustChangePassword
             };
         }
