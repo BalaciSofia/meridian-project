@@ -20,6 +20,10 @@ export class EmployeeService {
     return this.http.get<EmployeeResponse[]>(`${this.employeesApiUrl}/employees`);
   }
 
+  getColleagues(): Observable<EmployeeResponse[]> {
+    return this.http.get<EmployeeResponse[]>(`${this.employeesApiUrl}/colleagues`);
+  }
+
   getEmployeeById(id: number): Observable<EmployeeResponse> {
     return this.http.get<EmployeeResponse>(`${this.employeesApiUrl}/${id}`);
   }

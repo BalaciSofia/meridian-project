@@ -1,1 +1,204 @@
-<p>calendar works!</p>
+<main class="calendar-page">
+  <section class="page-header">
+    <h1>Calendar</h1>
+
+    <button type="button" (click)="openEventModal()">Add Event</button>
+  </section>
+
+  @if (errorMessage()) {
+    <p class="error-message">{{ errorMessage() }}</p>
+  }
+
+  @if (successMessage()) {
+    <p class="success-message">{{ successMessage() }}</p>
+  }
+
+  <section class="calendar-layout">
+    <section class="calendar-card">
+      <div class="calendar-toolbar">
+        <button class="secondary-button" type="button" (click)="previousMonth()">Previous</button>
+        <h2>{{ monthLabel() }}</h2>
+        <button class="secondary-button" type="button" (click)="nextMonth()">Next</button>
+      </div>
+
+      <div class="weekdays">
+        <span>Sun</span>
+        <span>Mon</span>
+        <span>Tue</span>
+        <span>Wed</span>
+        <span>Thu</span>
+        <span>Fri</span>
+        <span>Sat</span>
+      </div>
+
+      <div class="month-grid">
+        @for (day of calendarDays(); track day.dateKey) {
+          @if (day.date) {
+            <button
+              class="day-cell"
+              type="button"
+              [class.day-cell--today]="day.isToday"
+              [class.day-cell--selected]="day.isSelected"
+              (click)="selectDate(day)"
+            >
+              <span class="day-number">{{ day.dayNumber }}</span>
+
+              @if (getScheduleForDate(day.dateKey); as schedule) {
+                <span class="work-pill" [class]="'work-pill work-pill--' + schedule.workMode.toLowerCase()">
+                  {{ schedule.workMode }}
+                </span>
+              }
+
+              @if (getEventsForDate(day.dateKey).length > 0) {
+                <span class="event-count">{{ getEventsForDate(day.dateKey).length }} event</span>
+              }
+            </button>
+          } @else {
+            <span class="day-cell day-cell--empty"></span>
+          }
+        }
+      </div>
+    </section>
+
+    <aside class="details-card">
+      <h2>{{ selectedDateLabel() }}</h2>
+
+      <div class="schedule-actions">
+        <button type="button" [disabled]="isSavingSchedule()" (click)="setWorkMode('office')">Office</button>
+        <button type="button" [disabled]="isSavingSchedule()" (click)="setWorkMode('remote')">Remote</button>
+        <button class="secondary-button" type="button" [disabled]="isSavingSchedule()" (click)="setWorkMode('absent')">
+          Absent
+        </button>
+      </div>
+
+      @if (getScheduleForDate(selectedDate()); as selectedSchedule) {
+        <p class="current-mode">Current: {{ selectedSchedule.workMode }}</p>
+      } @else {
+        <p class="current-mode">Current: not set</p>
+      }
+
+      <div class="events-list">
+        <h3>Events</h3>
+
+        @if (getEventsForDate(selectedDate()).length > 0) {
+          @for (event of getEventsForDate(selectedDate()); track event.id) {
+            <article class="event-card">
+              <strong>{{ event.title }}</strong>
+              <span>{{ formatEventTime(event) }}</span>
+
+              @if (event.location) {
+                <p>{{ event.location }}</p>
+              }
+
+              @if (event.description) {
+                <p>{{ event.description }}</p>
+              }
+
+              @if (event.eventLink) {
+                <a [href]="event.eventLink" target="_blank" rel="noreferrer">Open link</a>
+              }
+
+              @if (getCurrentUserParticipant(event.id); as participant) {
+                <div class="event-response">
+                  <span class="status-pill" [class]="'status-pill status-pill--' + participant.status.toLowerCase()">
+                    {{ participant.status }}
+                  </span>
+
+                  @if (participant.status.toLowerCase() === 'pending') {
+                    <div class="response-actions">
+                      <button
+                        type="button"
+                        [disabled]="updatingParticipantId() === participant.id"
+                        (click)="updateMyEventStatus(event, 'accepted')"
+                      >
+                        Accept
+                      </button>
+                      <button
+                        class="secondary-button"
+                        type="button"
+                        [disabled]="updatingParticipantId() === participant.id"
+                        (click)="updateMyEventStatus(event, 'declined')"
+                      >
+                        Decline
+                      </button>
+                    </div>
+                  }
+                </div>
+              }
+            </article>
+          }
+        } @else {
+          <p class="state-message">No events for this day.</p>
+        }
+      </div>
+    </aside>
+  </section>
+</main>
+
+@if (isEventModalOpen()) {
+  <section class="modal-backdrop">
+    <form class="event-form" (ngSubmit)="addEvent()">
+      <div class="modal-header">
+        <h2>Add Event</h2>
+        <button class="close-button" type="button" (click)="closeEventModal()">Close</button>
+      </div>
+
+      <label>
+        Title
+        <input name="title" [(ngModel)]="eventForm.title" required />
+      </label>
+
+      <div class="time-row">
+        <label>
+          Start
+          <input name="startTime" type="time" [(ngModel)]="eventForm.startTime" required />
+        </label>
+
+        <label>
+          End
+          <input name="endTime" type="time" [(ngModel)]="eventForm.endTime" required />
+        </label>
+      </div>
+
+      <label>
+        Description
+        <textarea name="description" rows="3" [(ngModel)]="eventForm.description"></textarea>
+      </label>
+
+      <label>
+        Location
+        <input name="location" [(ngModel)]="eventForm.location" />
+      </label>
+
+      <label>
+        Link
+        <input name="eventLink" [(ngModel)]="eventForm.eventLink" />
+      </label>
+
+      <div class="participants">
+        <strong>Participants</strong>
+
+        @if (colleagues().length > 0) {
+          <div class="participants-list">
+            @for (colleague of colleagues(); track colleague.id) {
+              <label class="participant-option">
+                <input
+                  type="checkbox"
+                  [checked]="isParticipantSelected(colleague.id)"
+                  (change)="toggleParticipant(colleague.id, $event)"
+                />
+                <span>{{ colleague.firstName }} {{ colleague.lastName }}</span>
+              </label>
+            }
+          </div>
+        } @else {
+          <p class="state-message">No colleagues found.</p>
+        }
+      </div>
+
+      <button type="submit" [disabled]="isAddingEvent()">
+        {{ isAddingEvent() ? 'Adding...' : 'Add Event' }}
+      </button>
+    </form>
+  </section>
+}
