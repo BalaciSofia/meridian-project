@@ -13,6 +13,17 @@ export const authGuard: CanActivateFn = () => {
   return router.createUrlTree(['/login']);
 };
 
+export const passwordChangedGuard: CanActivateFn = () => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
+
+  if (!authService.currentUser()?.mustChangePassword) {
+    return true;
+  }
+
+  return router.createUrlTree(['/change-password']);
+};
+
 export const hrOrAdminGuard: CanActivateFn = () => {
   const authService = inject(AuthService);
   const router = inject(Router);
@@ -23,4 +34,3 @@ export const hrOrAdminGuard: CanActivateFn = () => {
 
   return router.createUrlTree(['/home']);
 };
-

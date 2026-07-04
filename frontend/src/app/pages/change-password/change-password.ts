@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../core/auth/auth.service';
@@ -7,11 +7,12 @@ import { AuthService } from '../../core/auth/auth.service';
   selector: 'app-change-password',
   imports: [FormsModule],
   templateUrl: './change-password.html',
+  styleUrl: './change-password.scss',
 })
 export class ChangePassword {
   currentPassword = '';
   newPassword = '';
-  errorMessage = '';
+  errorMessage = signal('');
 
   constructor(
     private authService: AuthService,
@@ -19,7 +20,7 @@ export class ChangePassword {
   ) {}
 
   changePassword(): void {
-    this.errorMessage = '';
+    this.errorMessage.set('');
 
     this.authService
       .changePassword({
@@ -29,7 +30,7 @@ export class ChangePassword {
       .subscribe({
         next: () => this.router.navigate(['/home']),
         error: () => {
-          this.errorMessage = 'Could not change password.';
+          this.errorMessage.set('Could not change password.');
         },
       });
   }
