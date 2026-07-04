@@ -1,0 +1,163 @@
+.document-types-page {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 36px 24px;
+}
+
+.page-header {
+  margin-bottom: 24px;
+}
+
+h1,
+h2 {
+  margin: 0;
+  color: #17324d;
+}
+
+h1 {
+  font-size: 34px;
+}
+
+h2 {
+  font-size: 22px;
+}
+
+.form-card,
+.list-card {
+  border: 1px solid #d9edf1;
+  border-radius: 20px;
+  background: #ffffff;
+  box-shadow: 0 14px 34px rgba(16, 88, 104, 0.1);
+}
+
+.form-card {
+  padding: 24px;
+}
+
+.list-card {
+  margin-top: 22px;
+  overflow: auto;
+  padding: 24px;
+}
+
+form {
+  display: grid;
+  gap: 18px;
+  margin-top: 18px;
+}
+
+label {
+  display: grid;
+  gap: 8px;
+  color: #17324d;
+  font-weight: 700;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #c8dde3;
+  border-radius: 12px;
+  color: #17324d;
+  font: inherit;
+  outline: none;
+}
+
+textarea {
+  resize: vertical;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #1799ad;
+  box-shadow: 0 0 0 3px rgba(23, 153, 173, 0.16);
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.checkbox-label input {
+  width: 18px;
+  min-height: 18px;
+}
+
+button {
+  width: fit-content;
+  min-height: 44px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 12px;
+  background: #f58220;
+  color: #ffffff;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #df7018;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+table {
+  width: 100%;
+  margin-top: 18px;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 14px;
+  border-bottom: 1px solid #edf5f7;
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  color: #5f7280;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+td {
+  color: #17324d;
+  font-weight: 600;
+}
+
+tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.success-message,
+.error-message,
+.state-message {
+  margin: 18px 0 0;
+  padding: 14px 16px;
+  border-radius: 12px;
+  font-weight: 700;
+}
+
+.success-message {
+  background: #eaf8f1;
+  color: #1f7651;
+}
+
+.error-message {
+  background: #fff2eb;
+  color: #9c3f0f;
+}
+
+.state-message {
+  background: #eef8fa;
+  color: #1799ad;
+}

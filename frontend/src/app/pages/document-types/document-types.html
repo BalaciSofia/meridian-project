@@ -1,0 +1,79 @@
+<main class="document-types-page">
+  <section class="page-header">
+    <h1>Document Types</h1>
+  </section>
+
+  <section class="form-card">
+    <h2>Add document type</h2>
+
+    <form (ngSubmit)="createDocumentType()">
+      <label>
+        Name
+        <input type="text" name="name" [(ngModel)]="name" required />
+      </label>
+
+      <label>
+        Description
+        <textarea name="description" rows="3" [(ngModel)]="description" required></textarea>
+      </label>
+
+      <label class="checkbox-label">
+        <input type="checkbox" name="requiredForAll" [(ngModel)]="requiredForAll" />
+        Required for all employees
+      </label>
+
+      @if (!requiredForAll) {
+        <label>
+          Required for department
+          <select name="requiredForDepartmentId" [(ngModel)]="requiredForDepartmentId" required>
+            @for (department of departments(); track department.id) {
+              <option [ngValue]="department.id">{{ department.departmentName }}</option>
+            }
+          </select>
+        </label>
+      }
+
+      <button type="submit" [disabled]="isSaving()">
+        {{ isSaving() ? 'Adding...' : 'Add document type' }}
+      </button>
+    </form>
+  </section>
+
+  @if (successMessage()) {
+    <p class="success-message">{{ successMessage() }}</p>
+  }
+
+  @if (errorMessage()) {
+    <p class="error-message">{{ errorMessage() }}</p>
+  }
+
+  <section class="list-card">
+    <h2>Existing document types</h2>
+
+    @if (isLoading()) {
+      <p class="state-message">Loading document types...</p>
+    } @else if (documentTypes().length > 0) {
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Required for</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (documentType of documentTypes(); track documentType.id) {
+            <tr>
+              <td>{{ documentType.name }}</td>
+              <td>{{ documentType.description }}</td>
+              <td>{{ documentType.requiredForAll ? 'All departments' : getDepartmentName(documentType.requiredForDepartmentId) }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    } @else {
+      <p class="state-message">No document types yet.</p>
+    }
+  </section>
+</main>
+
