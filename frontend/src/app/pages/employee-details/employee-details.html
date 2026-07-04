@@ -31,6 +31,64 @@
         </div>
       </dl>
     </section>
+
+    <section class="documents-card">
+      <div class="section-header">
+        <h2>Documents</h2>
+      </div>
+
+      <form class="require-form" (ngSubmit)="requireDocument()">
+        <label>
+          Require document
+          <select name="documentTypeId" [(ngModel)]="selectedDocumentTypeId" required>
+            @for (documentType of documentTypes(); track documentType.id) {
+              <option [ngValue]="documentType.id">{{ documentType.name }}</option>
+            }
+          </select>
+        </label>
+
+        <button type="submit" [disabled]="isSavingDocument()">
+          {{ isSavingDocument() ? 'Adding...' : 'Add required document' }}
+        </button>
+      </form>
+
+      @if (documents().length > 0) {
+        <table>
+          <thead>
+            <tr>
+              <th>Document</th>
+              <th>Description</th>
+              <th>Status</th>
+              <th>File</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (document of documents(); track document.id) {
+              <tr>
+                <td>{{ document.documentTypeName }}</td>
+                <td>{{ document.documentTypeDescription }}</td>
+                <td>
+                  <span class="document-status">{{ document.status }}</span>
+                </td>
+                <td>
+                  @if (document.fileUrl) {
+                    <a [href]="document.fileUrl" target="_blank">Open</a>
+                  } @else {
+                    <span class="empty-value">No file</span>
+                  }
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      } @else {
+        <p class="state-message">No documents required yet.</p>
+      }
+    </section>
+  }
+
+  @if (successMessage()) {
+    <p class="success-message">{{ successMessage() }}</p>
   }
 
   @if (errorMessage()) {

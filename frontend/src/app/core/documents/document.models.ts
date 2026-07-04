@@ -12,3 +12,17 @@ export interface CreateDocumentTypeRequest {
   requiredForAll: boolean;
   requiredForDepartmentId?: number | null;
 }
+
+export interface DocumentResponse {
+  id: number;
+  accountId: number;
+  documentTypeId: number;
+  documentTypeName: string;
+  documentTypeDescription: string;
+  fileUrl?: string | null;
+  status: string;
+}
+
+export interface RequireDocumentForEmployeeRequest {
+  documentTypeId: number;
+}

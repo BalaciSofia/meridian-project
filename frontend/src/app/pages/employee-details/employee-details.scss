@@ -16,15 +16,25 @@
   color: #0f7f91;
 }
 
-.details-card {
+.details-card,
+.documents-card {
   display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 20px;
   padding: 28px;
   border: 1px solid #d9edf1;
   border-radius: 20px;
   background: #ffffff;
   box-shadow: 0 14px 34px rgba(16, 88, 104, 0.1);
+}
+
+.details-card {
+  grid-template-columns: auto 1fr;
+  gap: 20px;
+}
+
+.documents-card {
+  gap: 18px;
+  margin-top: 22px;
+  overflow: auto;
 }
 
 .avatar {
@@ -44,6 +54,12 @@ h1 {
   margin: 0;
   color: #17324d;
   font-size: 32px;
+}
+
+h2 {
+  margin: 0;
+  color: #17324d;
+  font-size: 24px;
 }
 
 .email {
@@ -79,7 +95,108 @@ dd {
   font-weight: 800;
 }
 
+.require-form {
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+}
+
+label {
+  display: grid;
+  flex: 1;
+  gap: 8px;
+  color: #17324d;
+  font-weight: 700;
+}
+
+select {
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid #c8dde3;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #17324d;
+  font: inherit;
+  outline: none;
+}
+
+select:focus {
+  border-color: #1799ad;
+  box-shadow: 0 0 0 3px rgba(23, 153, 173, 0.16);
+}
+
+button {
+  min-height: 44px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 12px;
+  background: #f58220;
+  color: #ffffff;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #df7018;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 14px;
+  border-bottom: 1px solid #edf5f7;
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  color: #5f7280;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+td {
+  color: #17324d;
+  font-weight: 600;
+}
+
+tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.document-status {
+  display: inline-flex;
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: #eef8fa;
+  color: #1799ad;
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: capitalize;
+}
+
+.empty-value {
+  color: #8aa0aa;
+}
+
+.documents-card a {
+  color: #1799ad;
+  font-weight: 800;
+  text-decoration: none;
+}
+
 .state-message,
+.success-message,
 .error-message {
   margin: 0;
   padding: 14px 16px;
@@ -92,14 +209,27 @@ dd {
   color: #1799ad;
 }
 
+.success-message {
+  margin-top: 18px;
+  background: #eaf8f1;
+  color: #1f7651;
+}
+
 .error-message {
+  margin-top: 18px;
   background: #fff2eb;
   color: #9c3f0f;
 }
 
 @media (max-width: 700px) {
   .details-card,
-  dl {
+  dl,
+  .require-form {
     grid-template-columns: 1fr;
+  }
+
+  .require-form {
+    align-items: stretch;
+    flex-direction: column;
   }
 }
