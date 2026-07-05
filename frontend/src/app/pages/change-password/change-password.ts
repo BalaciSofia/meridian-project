@@ -28,7 +28,7 @@ export class ChangePassword {
         newPassword: this.newPassword,
       })
       .subscribe({
-        next: () => this.router.navigate(['/home']),
+        next: () => this.router.navigate(['/announcements']),
         error: () => {
           this.errorMessage.set('Could not change password.');
         },

@@ -57,6 +57,6 @@ export class Login implements OnInit {
       return;
     }
 
-    this.router.navigate(['/home']);
+    this.router.navigate(['/announcements']);
   }
 }

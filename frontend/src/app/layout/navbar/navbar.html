@@ -1,9 +1,11 @@
 @if (authService.currentUser(); as user) {
   <nav class="navbar">
-    <a class="navbar__brand" routerLink="/home"><span>M</span>eridian</a>
+    <a class="navbar__brand" routerLink="/announcements"><span>M</span>eridian</a>
 
     <div class="navbar__links">
-      <a routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+      <a routerLink="/announcements" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        Announcements
+      </a>
       <a routerLink="/calendar" routerLinkActive="active">Calendar</a>
       <a routerLink="/profile" routerLinkActive="active">My Profile</a>
 

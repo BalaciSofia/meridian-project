@@ -32,5 +32,5 @@ export const hrOrAdminGuard: CanActivateFn = () => {
     return true;
   }
 
-  return router.createUrlTree(['/home']);
+  return router.createUrlTree(['/announcements']);
 };

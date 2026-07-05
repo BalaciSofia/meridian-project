@@ -21,7 +21,7 @@ export const routes: Routes = [
     component: Login,
   },
   {
-    path: 'home',
+    path: 'announcements',
     component: Home,
     canActivate: [authGuard, passwordChangedGuard],
   },

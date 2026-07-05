@@ -14,6 +14,7 @@ import { PostResponse, PostViewModel } from '../../core/posts/post.models';
 })
 export class Home implements OnInit {
   posts = signal<PostViewModel[]>([]);
+  expandedCommentsPostIds = signal<number[]>([]);
   errorMessage = signal('');
   successMessage = signal('');
   isLoading = signal(true);
@@ -116,13 +117,43 @@ export class Home implements OnInit {
     return post.reacts.some((react) => react.accountId === accountId && react.reactType === reactType);
   }
 
+  getVisibleComments(post: PostViewModel) {
+    if (this.areCommentsExpanded(post.id)) {
+      return post.comments;
+    }
+
+    return post.comments.slice(0, 3);
+  }
+
+  hasMoreComments(post: PostViewModel): boolean {
+    return post.comments.length > 3;
+  }
+
+  areCommentsExpanded(postId: number): boolean {
+    return this.expandedCommentsPostIds().includes(postId);
+  }
+
+  toggleComments(postId: number): void {
+    const expandedIds = this.expandedCommentsPostIds();
+
+    if (expandedIds.includes(postId)) {
+      this.expandedCommentsPostIds.set(expandedIds.filter((id) => id !== postId));
+      return;
+    }
+
+    this.expandedCommentsPostIds.set([...expandedIds, postId]);
+  }
+
   private loadPosts(): void {
     this.isLoading.set(true);
     this.errorMessage.set('');
 
     this.postService.getPosts().subscribe({
       next: (posts) => {
-        const viewModels = posts.map((post) => this.toViewModel(post));
+        const sortedPosts = [...posts].sort((firstPost, secondPost) =>
+            new Date(secondPost.createdAt).getTime() - new Date(firstPost.createdAt).getTime(),
+        );
+        const viewModels = sortedPosts.map((post) => this.toViewModel(post));
         this.posts.set(viewModels);
         this.isLoading.set(false);
         viewModels.forEach((post) => this.loadPostDetails(post));

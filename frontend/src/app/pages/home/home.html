@@ -1,7 +1,5 @@
 <main class="home-page">
   <section class="page-header">
-    <h1>Home</h1>
-
     @if (canCreatePost()) {
       <button type="button" class="add-post-button" (click)="openPostModal()">Add Post</button>
     }
@@ -56,7 +54,7 @@
           <header class="post-card__header">
             <div>
               <h2>{{ post.title }}</h2>
-              <p>{{ post.createdByName }} · {{ post.createdAt | date: 'mediumDate' }}</p>
+              <p>{{ post.createdByName }} / {{ post.createdAt | date: 'mediumDate' }}</p>
             </div>
           </header>
 
@@ -67,33 +65,41 @@
           }
 
           <div class="post-actions">
-            <button
-              type="button"
-              class="reaction-button"
-              [class.reaction-button--active]="hasUserReacted(post, 'like')"
-              (click)="setReaction(post, 'like')"
-            >
-              Like · {{ getReactionCount(post, 'like') }}
-            </button>
+            <div class="reaction-group">
+              <button
+                type="button"
+                class="reaction-button"
+                [class.reaction-button--active]="hasUserReacted(post, 'like')"
+                (click)="setReaction(post, 'like')"
+              >
+                Like {{ getReactionCount(post, 'like') }}
+              </button>
 
-            <button
-              type="button"
-              class="reaction-button reaction-button--dislike"
-              [class.reaction-button--active]="hasUserReacted(post, 'dislike')"
-              (click)="setReaction(post, 'dislike')"
-            >
-              Dislike · {{ getReactionCount(post, 'dislike') }}
-            </button>
+              <button
+                type="button"
+                class="reaction-button"
+                [class.reaction-button--active]="hasUserReacted(post, 'dislike')"
+                (click)="setReaction(post, 'dislike')"
+              >
+                Dislike {{ getReactionCount(post, 'dislike') }}
+              </button>
+            </div>
 
             <span>{{ post.comments.length }} comments</span>
           </div>
 
           <section class="comments">
-            @for (comment of post.comments; track comment.id) {
+            @for (comment of getVisibleComments(post); track comment.id) {
               <div class="comment">
                 <strong>{{ comment.authorName }}</strong>
                 <p>{{ comment.content }}</p>
               </div>
+            }
+
+            @if (hasMoreComments(post)) {
+              <button type="button" class="more-comments-button" (click)="toggleComments(post.id)">
+                {{ areCommentsExpanded(post.id) ? 'Less comments' : 'More comments' }}
+              </button>
             }
 
             <form class="comment-form" (ngSubmit)="addComment(post)">
