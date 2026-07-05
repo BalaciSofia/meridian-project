@@ -37,8 +37,9 @@ namespace backend.Repositories
 
         public async Task UpdateStatusParticipantEvent(EventParticipant eventParticipant)
         {
-            _context.EventParticipants.Update(eventParticipant);
-            await _context.SaveChangesAsync();
+            await _context.EventParticipants
+                .Where(ep => ep.Id == eventParticipant.Id)
+                .ExecuteUpdateAsync(setters => setters.SetProperty(ep => ep.Status, eventParticipant.Status));
         }
 
         public async Task<IEnumerable<EventParticipant>> GetParticipantsForEvent(int eventId)
