@@ -79,6 +79,17 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 var app = builder.Build();
 
+// Apply any pending EF Core migrations and fill the database with
+// starting data (roles, departments, a couple of test accounts, etc.)
+// This runs every time the app starts, so a new clone of this repo
+// works right away without any manual database setup.
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    await dbContext.Database.MigrateAsync();
+    await DbSeeder.SeedAsync(dbContext);
+}
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
