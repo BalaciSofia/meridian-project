@@ -4,37 +4,38 @@
   z-index: 100;
   display: flex;
   align-items: center;
-  gap: 28px;
-  min-height: 68px;
+  gap: 22px;
+  min-height: 64px;
   padding: 0 28px;
   border-bottom: 1px solid #d9edf1;
-  background: #ffffff;
-  box-shadow: 0 8px 24px rgba(16, 88, 104, 0.08);
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 8px 20px rgba(16, 88, 104, 0.06);
 }
 
 .navbar__brand {
   color: #17324d;
-  font-size: 22px;
-  font-weight: 800;
+  font-family: 'Poppins', Arial, Helvetica, sans-serif;
+  font-size: 21px;
+  font-weight: 730;
   text-decoration: none;
 }
 
-.navbar__brand::first-letter {
+.navbar__brand span {
   color: #f58220;
 }
 
 .navbar__links {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   flex: 1;
 }
 
 .navbar__links a {
-  padding: 10px 14px;
+  padding: 8px 12px;
   border-radius: 999px;
   color: #4f6573;
-  font-weight: 700;
+  font-weight: 530;
   text-decoration: none;
 }
 
@@ -44,14 +45,16 @@
 }
 
 .navbar__links a.active {
-  background: #1799ad;
-  color: #ffffff;
+  background: #eef8fa;
+  color: #117f91;
 }
 
 .navbar__account {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
+  padding-left: 16px;
+  border-left: 1px solid #d9edf1;
 }
 
 .navbar__identity {
@@ -70,7 +73,7 @@
 .navbar__name {
   color: #17324d;
   font-size: 14px;
-  font-weight: 800;
+  font-weight: 630;
 }
 
 .navbar__meta {
@@ -80,19 +83,20 @@
 }
 
 button {
-  min-height: 38px;
-  padding: 0 16px;
-  border: 0;
+  min-height: 36px;
+  padding: 0 15px;
+  border: 1px solid #b9dfe6;
   border-radius: 999px;
-  background: #f58220;
-  color: #ffffff;
+  background: #f4fbfc;
+  color: #117f91;
   font: inherit;
-  font-weight: 800;
+  font-weight: 530;
   cursor: pointer;
 }
 
 button:hover {
-  background: #df7018;
+  background: #1799ad;
+  color: #ffffff;
 }
 
 @media (max-width: 760px) {
@@ -109,6 +113,8 @@ button:hover {
 
   .navbar__account {
     width: 100%;
+    padding-left: 0;
+    border-left: 0;
     justify-content: space-between;
   }
 }

@@ -1,6 +1,6 @@
 @if (authService.currentUser(); as user) {
   <nav class="navbar">
-    <a class="navbar__brand" routerLink="/home">Meridian</a>
+    <a class="navbar__brand" routerLink="/home"><span>M</span>eridian</a>
 
     <div class="navbar__links">
       <a routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
@@ -17,7 +17,7 @@
     <div class="navbar__account">
       <div class="navbar__identity">
         <span class="navbar__name">{{ user.firstName }} {{ user.lastName }}</span>
-        <span class="navbar__meta">{{ user.role }} · {{ user.department }}</span>
+        <span class="navbar__meta">Department: {{ user.department }}</span>
       </div>
 
       <button type="button" (click)="logout()">Logout</button>
