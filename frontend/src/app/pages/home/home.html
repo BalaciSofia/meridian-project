@@ -1,7 +1,7 @@
 <main class="home-page">
   <section class="page-header">
     @if (canCreatePost()) {
-      <button type="button" class="add-post-button" (click)="openPostModal()">Add Post</button>
+      <button type="button" class="add-post-button" (click)="openPostModal()">New Announcement</button>
     }
   </section>
 
@@ -54,14 +54,16 @@
           <header class="post-card__header">
             <div>
               <h2>{{ post.title }}</h2>
-              <p>{{ post.createdByName }} / {{ post.createdAt | date: 'mediumDate' }}</p>
+              <p>{{ post.createdByName }} / {{ post.createdAt | date: 'medium' }}</p>
             </div>
           </header>
 
           <p class="post-content">{{ post.content }}</p>
 
           @if (post.imageUrl) {
-            <img [src]="post.imageUrl" [alt]="post.title" />
+            <div class="post-image">
+              <img [src]="post.imageUrl" [alt]="post.title" />
+            </div>
           }
 
           <div class="post-actions">
@@ -85,33 +87,43 @@
               </button>
             </div>
 
-            <span>{{ post.comments.length }} comments</span>
+            <button type="button" class="comment-toggle-button" (click)="toggleCommentForm(post)">Comment</button>
           </div>
 
-          <section class="comments">
-            @for (comment of getVisibleComments(post); track comment.id) {
-              <div class="comment">
-                <strong>{{ comment.authorName }}</strong>
-                <p>{{ comment.content }}</p>
-              </div>
-            }
+          @if (post.comments.length > 0 || post.isCommentFormOpen) {
+            <section class="comments">
+              @if (post.comments.length > 0) {
+                <div class="comments-header">
+                  <span>{{ post.comments.length }} comments</span>
+                </div>
+              }
 
-            @if (hasMoreComments(post)) {
-              <button type="button" class="more-comments-button" (click)="toggleComments(post.id)">
-                {{ areCommentsExpanded(post.id) ? 'Less comments' : 'More comments' }}
-              </button>
-            }
+              @for (comment of getVisibleComments(post); track comment.id) {
+                <div class="comment">
+                  <strong>{{ comment.authorName }}</strong>
+                  <p>{{ comment.content }}</p>
+                </div>
+              }
 
-            <form class="comment-form" (ngSubmit)="addComment(post)">
-              <input
-                type="text"
-                name="comment-{{ post.id }}"
-                placeholder="Write a comment"
-                [(ngModel)]="post.newComment"
-              />
-              <button type="submit">Comment</button>
-            </form>
-          </section>
+              @if (hasMoreComments(post)) {
+                <button type="button" class="more-comments-button" (click)="toggleComments(post.id)">
+                  {{ areCommentsExpanded(post.id) ? 'Less comments' : 'More comments' }}
+                </button>
+              }
+
+              @if (post.isCommentFormOpen) {
+                <form class="comment-form" (ngSubmit)="addComment(post)">
+                  <input
+                    type="text"
+                    name="comment-{{ post.id }}"
+                    placeholder="Write a comment"
+                    [(ngModel)]="post.newComment"
+                  />
+                  <button type="submit">Post</button>
+                </form>
+              }
+            </section>
+          }
         </article>
       }
     </section>

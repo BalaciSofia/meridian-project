@@ -64,7 +64,7 @@ export class Home implements OnInit {
           this.title = '';
           this.content = '';
           this.imageUrl = '';
-          this.successMessage.set('Post created.');
+          this.successMessage.set('Announcement created.');
           this.isCreatingPost.set(false);
           this.closePostModal();
           this.loadPosts();
@@ -115,6 +115,11 @@ export class Home implements OnInit {
     }
 
     return post.reacts.some((react) => react.accountId === accountId && react.reactType === reactType);
+  }
+
+  toggleCommentForm(post: PostViewModel): void {
+    post.isCommentFormOpen = !post.isCommentFormOpen;
+    this.posts.set([...this.posts()]);
   }
 
   getVisibleComments(post: PostViewModel) {
@@ -192,6 +197,7 @@ export class Home implements OnInit {
       reacts: [],
       newComment: '',
       isLoadingDetails: false,
+      isCommentFormOpen: false,
     };
   }
 }

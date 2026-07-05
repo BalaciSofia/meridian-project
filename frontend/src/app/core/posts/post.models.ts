@@ -43,5 +43,5 @@ export interface PostViewModel extends PostResponse {
   reacts: ReactResponse[];
   newComment: string;
   isLoadingDetails: boolean;
+  isCommentFormOpen: boolean;
 }
-

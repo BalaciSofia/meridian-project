@@ -170,14 +170,18 @@ button:disabled {
   line-height: 1.55;
 }
 
-img {
+.post-image {
+  display: flex;
+  justify-content: center;
+  margin: 6px 0 2px;
+}
+
+.post-image img {
   display: block;
   max-width: min(100%, 420px);
   width: auto;
   height: auto;
   max-height: 180px;
-  margin: 6px auto 2px;
-  border: 1px solid #edf5f7;
   border-radius: 10px;
 }
 
@@ -200,10 +204,30 @@ img {
   gap: 8px;
 }
 
+.comment-toggle-button {
+  min-height: 32px;
+  padding: 0 10px;
+  border: 0;
+  background: transparent;
+  color: #5f7280;
+  font-weight: 600;
+}
+
+.comment-toggle-button:hover {
+  background: #fff7f0;
+  color: #c85f12;
+}
+
 .comments {
   display: grid;
   gap: 12px;
   margin-top: 18px;
+}
+
+.comments-header {
+  color: #5f7280;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .comment {
