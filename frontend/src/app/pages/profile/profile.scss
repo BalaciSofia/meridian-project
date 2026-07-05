@@ -1,11 +1,7 @@
 .profile-page {
   max-width: 980px;
   margin: 0 auto;
-  padding: 36px 24px;
-}
-
-.page-header {
-  margin-bottom: 24px;
+  padding: 28px 24px 36px;
 }
 
 h1,
@@ -20,77 +16,77 @@ h1 {
 }
 
 h2 {
-  font-size: 28px;
+  font-size: 24px;
 }
 
 h3 {
-  font-size: 18px;
+  font-size: 17px;
+  font-weight: 600;
 }
 
 .profile-card,
 .documents-card {
   border: 1px solid #d9edf1;
-  border-radius: 20px;
+  border-radius: 16px;
   background: #ffffff;
-  box-shadow: 0 14px 34px rgba(16, 88, 104, 0.1);
 }
 
 .profile-card {
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: 20px;
-  padding: 28px;
+  gap: 18px;
+  padding: 22px;
 }
 
 .avatar {
   display: grid;
   place-items: center;
-  width: 64px;
-  height: 64px;
-  border-radius: 18px;
-  background: #1799ad;
-  color: #ffffff;
-  font-size: 22px;
-  font-weight: 900;
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: #e7f6f8;
+  color: #117f91;
+  font-size: 20px;
+  font-weight: 700;
   text-transform: uppercase;
 }
 
 .email {
   margin: 8px 0 0;
   color: #5f7280;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 500;
 }
 
 dl {
   grid-column: 1 / -1;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16px;
   margin: 10px 0 0;
 }
 
 dl div {
-  padding: 16px;
-  border-radius: 14px;
-  background: #f7fbfc;
+  padding-top: 14px;
+  border-top: 1px solid #edf5f7;
 }
 
 dt {
   margin-bottom: 6px;
   color: #5f7280;
   font-size: 13px;
-  font-weight: 800;
+  font-weight: 600;
 }
 
 dd {
   margin: 0;
   color: #17324d;
-  font-weight: 800;
+  font-weight: 600;
 }
 
 a {
   color: #1799ad;
-  font-weight: 800;
+  font-weight: 600;
   text-decoration: none;
 }
 
@@ -100,7 +96,20 @@ a:hover {
 
 .documents-card {
   margin-top: 22px;
-  padding: 28px;
+  padding: 22px;
+}
+
+.documents-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.documents-header span {
+  color: #5f7280;
+  font-size: 14px;
+  font-weight: 500;
 }
 
 .documents-list {
@@ -114,29 +123,47 @@ a:hover {
   grid-template-columns: 1fr auto auto;
   align-items: center;
   gap: 18px;
-  padding: 16px;
-  border: 1px solid #edf5f7;
-  border-radius: 16px;
-  background: #f7fbfc;
+  padding: 16px 0;
+  border-bottom: 1px solid #edf5f7;
+}
+
+.document-item:last-child {
+  border-bottom: 0;
 }
 
 .document-item p {
   margin: 6px 0 0;
   color: #5f7280;
+  font-size: 14px;
   line-height: 1.5;
 }
 
 .document-status {
   display: inline-flex;
   justify-content: center;
-  min-width: 92px;
-  padding: 6px 10px;
+  min-width: 88px;
+  padding: 5px 10px;
   border-radius: 999px;
-  background: #eef8fa;
-  color: #1799ad;
+  background: #f0f1f3;
+  color: #5f6570;
   font-size: 12px;
-  font-weight: 900;
+  font-weight: 600;
   text-transform: capitalize;
+}
+
+.document-status--submitted {
+  background: #fff2e8;
+  color: #b45612;
+}
+
+.document-status--approved {
+  background: #eaf8f1;
+  color: #1f7651;
+}
+
+.document-status--rejected {
+  background: #fff2eb;
+  color: #9c3f0f;
 }
 
 .document-actions {
@@ -149,17 +176,19 @@ a:hover {
   position: relative;
   display: inline-flex;
   align-items: center;
-  min-height: 38px;
+  min-height: 36px;
   padding: 0 14px;
+  border: 1px solid #b9dfe6;
   border-radius: 999px;
-  background: #f58220;
-  color: #ffffff;
-  font-weight: 800;
+  background: #f4fbfc;
+  color: #117f91;
+  font-weight: 600;
   cursor: pointer;
 }
 
 .upload-button:hover {
-  background: #df7018;
+  background: #1799ad;
+  color: #ffffff;
 }
 
 .upload-button input {
@@ -175,7 +204,7 @@ a:hover {
   margin: 18px 0 0;
   padding: 14px 16px;
   border-radius: 12px;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .success-message {

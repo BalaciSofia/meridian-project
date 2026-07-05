@@ -19,7 +19,6 @@ export class EmployeeDetails implements OnInit {
   documents = signal<DocumentResponse[]>([]);
   documentTypes = signal<DocumentTypeResponse[]>([]);
   errorMessage = signal('');
-  successMessage = signal('');
   isLoading = signal(true);
   isSavingDocument = signal(false);
   updatingDocumentId = signal<number | null>(null);
@@ -63,7 +62,6 @@ export class EmployeeDetails implements OnInit {
 
   requireDocument(): void {
     this.errorMessage.set('');
-    this.successMessage.set('');
 
     if (!this.accountId || this.selectedDocumentTypeId === null) {
       this.errorMessage.set('Select a document type.');
@@ -78,7 +76,6 @@ export class EmployeeDetails implements OnInit {
       })
       .subscribe({
         next: () => {
-          this.successMessage.set('Document required for employee.');
           this.isSavingDocument.set(false);
           this.loadEmployeeDocuments();
         },
@@ -97,12 +94,10 @@ export class EmployeeDetails implements OnInit {
 
   updateDocumentStatus(document: DocumentResponse, status: 'approved' | 'rejected'): void {
     this.errorMessage.set('');
-    this.successMessage.set('');
     this.updatingDocumentId.set(document.id);
 
     this.documentService.updateDocumentStatus(document.id, { status }).subscribe({
       next: () => {
-        this.successMessage.set(`Document ${status}.`);
         this.updatingDocumentId.set(null);
         this.loadEmployeeDocuments();
       },

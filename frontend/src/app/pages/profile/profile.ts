@@ -14,7 +14,6 @@ export class Profile implements OnInit {
 
   documents = signal<DocumentResponse[]>([]);
   errorMessage = signal('');
-  successMessage = signal('');
   isLoading = signal(true);
   uploadingDocumentId = signal<number | null>(null);
 
@@ -36,12 +35,10 @@ export class Profile implements OnInit {
     }
 
     this.errorMessage.set('');
-    this.successMessage.set('');
     this.uploadingDocumentId.set(document.id);
 
     this.documentService.uploadDocument(document.id, file).subscribe({
       next: () => {
-        this.successMessage.set('Document uploaded.');
         this.uploadingDocumentId.set(null);
         input.value = '';
         this.loadDocuments();
@@ -60,6 +57,20 @@ export class Profile implements OnInit {
     }
 
     return `${this.fileBaseUrl}${fileUrl}`;
+  }
+
+  getDocumentsCountLabel(): string {
+    const documentCount = this.documents().length;
+
+    return documentCount === 1 ? '1 document' : `${documentCount} documents`;
+  }
+
+  getUploadLabel(document: DocumentResponse): string {
+    if (this.uploadingDocumentId() === document.id) {
+      return 'Uploading...';
+    }
+
+    return document.status.toLowerCase() === 'missing' ? 'Upload file' : 'Replace file';
   }
 
   private loadDocuments(): void {

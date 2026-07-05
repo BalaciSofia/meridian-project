@@ -1,8 +1,4 @@
 <main class="profile-page">
-  <section class="page-header">
-    <h1>My Profile</h1>
-  </section>
-
   @if (authService.currentUser(); as user) {
     <section class="profile-card">
       <div class="avatar" aria-hidden="true">
@@ -16,11 +12,6 @@
 
       <dl>
         <div>
-          <dt>Role</dt>
-          <dd>{{ user.role }}</dd>
-        </div>
-
-        <div>
           <dt>Department</dt>
           <dd>{{ user.department }}</dd>
         </div>
@@ -29,7 +20,7 @@
           <dt>Slack</dt>
           <dd>
             @if (user.departmentSlackLink) {
-              <a [href]="user.departmentSlackLink" target="_blank">Open department Slack</a>
+              <a [href]="user.departmentSlackLink" target="_blank">Department channel</a>
             } @else {
               <span class="empty-value">No link</span>
             }
@@ -39,16 +30,15 @@
     </section>
   }
 
-  @if (successMessage()) {
-    <p class="success-message">{{ successMessage() }}</p>
-  }
-
   @if (errorMessage()) {
     <p class="error-message">{{ errorMessage() }}</p>
   }
 
   <section class="documents-card">
-    <h2>My Documents</h2>
+    <div class="documents-header">
+      <h2>Documents</h2>
+      <span>{{ getDocumentsCountLabel() }}</span>
+    </div>
 
     @if (isLoading()) {
       <p class="state-message">Loading documents...</p>
@@ -61,21 +51,25 @@
               <p>{{ document.documentTypeDescription }}</p>
             </div>
 
-            <span class="document-status">{{ document.status }}</span>
+            <span class="document-status" [class]="'document-status document-status--' + document.status.toLowerCase()">
+              {{ document.status }}
+            </span>
 
             <div class="document-actions">
               @if (document.fileUrl) {
                 <a [href]="getFileUrl(document.fileUrl)" target="_blank">Open file</a>
               }
 
-              <label class="upload-button">
-                {{ uploadingDocumentId() === document.id ? 'Uploading...' : 'Upload file' }}
-                <input
-                  type="file"
-                  [disabled]="uploadingDocumentId() === document.id"
-                  (change)="uploadDocument(document, $event)"
-                />
-              </label>
+              @if (document.status.toLowerCase() !== 'approved') {
+                <label class="upload-button">
+                  {{ getUploadLabel(document) }}
+                  <input
+                    type="file"
+                    [disabled]="uploadingDocumentId() === document.id"
+                    (change)="uploadDocument(document, $event)"
+                  />
+                </label>
+              }
             </div>
           </article>
         }
