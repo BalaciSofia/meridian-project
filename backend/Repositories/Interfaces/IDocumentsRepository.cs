@@ -5,6 +5,7 @@ namespace backend.Repositories.Interfaces
     public interface IDocumentsRepository
     {
         Task AddDocument(Document document);
+        Task AddDocuments(IEnumerable<Document> documents);
         Task AddDocumentType(DocumentType documentType);
         Task<IEnumerable<Document>> GetAllDocumentsForUser(int userId);
         Task<IEnumerable<DocumentType>> GetAllDocumentTypes();

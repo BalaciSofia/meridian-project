@@ -7,10 +7,14 @@ namespace backend.Services
     public class DocumentsService : IDocumentsService
     {
         private readonly IDocumentsRepository _documentsRepository;
+        private readonly IAccountRepository _accountRepository;
 
-        public DocumentsService(IDocumentsRepository documentsRepository)
+        public DocumentsService(
+            IDocumentsRepository documentsRepository,
+            IAccountRepository accountRepository)
         {
             _documentsRepository = documentsRepository;
+            _accountRepository = accountRepository;
         }
 
         public async Task<Document?> GetDocumentById(int id)
@@ -41,6 +45,20 @@ namespace backend.Services
         public async Task AddDocumentType(DocumentType documentType)
         {
             await _documentsRepository.AddDocumentType(documentType);
+
+            var accounts = await _accountRepository.GetAllAccounts();
+            var matchingAccounts = accounts.Where(account =>
+                documentType.RequiredForAll
+                || account.DepartmentId == documentType.RequiredForDepartmentId);
+
+            var documents = matchingAccounts.Select(account => new Document
+            {
+                AccountId = account.Id,
+                DocumentTypeId = documentType.Id,
+                Status = "missing"
+            });
+
+            await _documentsRepository.AddDocuments(documents);
         }
 
         public async Task<bool> RequireDocumentForEmployee(int accountId, int documentTypeId)
