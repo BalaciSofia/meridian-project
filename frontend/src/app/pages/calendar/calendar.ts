@@ -40,6 +40,7 @@ export class Calendar implements OnInit {
   isEventModalOpen = signal(false);
   isAddingEvent = signal(false);
   updatingParticipantId = signal<number | null>(null);
+  expandedEventId = signal<number | null>(null);
   selectedParticipantIds = signal<number[]>([]);
 
   eventForm = {
@@ -92,8 +93,26 @@ export class Calendar implements OnInit {
     return this.events().filter((event) => this.toDateKey(new Date(event.startingTime)) === dateKey);
   }
 
+  getEventCountLabel(dateKey: string): string {
+    const eventCount = this.getEventsForDate(dateKey).length;
+
+    return eventCount === 1 ? '1 event' : `${eventCount} events`;
+  }
+
   getScheduleForDate(dateKey: string): WorkScheduleResponse | undefined {
     return this.workSchedules().find((schedule) => this.toDateKey(new Date(schedule.date)) === dateKey);
+  }
+
+  getWorkModeForDate(dateKey: string): string {
+    return this.getScheduleForDate(dateKey)?.workMode.toLowerCase() ?? '';
+  }
+
+  isSelectedWorkMode(workMode: string): boolean {
+    return this.getWorkModeForDate(this.selectedDate()) === workMode;
+  }
+
+  dismissError(): void {
+    this.errorMessage.set('');
   }
 
   setWorkMode(workMode: string): void {
@@ -107,7 +126,6 @@ export class Calendar implements OnInit {
       })
       .subscribe({
         next: () => {
-          this.successMessage.set('Work schedule updated.');
           this.isSavingSchedule.set(false);
           this.loadWorkSchedules();
         },
@@ -190,6 +208,10 @@ export class Calendar implements OnInit {
     return `${this.formatTime(event.startingTime)} - ${this.formatTime(event.endingTime)}`;
   }
 
+  toggleEventDetails(eventId: number): void {
+    this.expandedEventId.set(this.expandedEventId() === eventId ? null : eventId);
+  }
+
   getCurrentUserParticipant(eventId: number): EventParticipantResponse | undefined {
     const currentUserId = this.authService.currentUser()?.accountId;
 
@@ -197,6 +219,10 @@ export class Calendar implements OnInit {
   }
 
   updateMyEventStatus(event: EventResponse, status: string): void {
+    if (this.updatingParticipantId() !== null) {
+      return;
+    }
+
     const participant = this.getCurrentUserParticipant(event.id);
 
     if (!participant) {
@@ -206,6 +232,7 @@ export class Calendar implements OnInit {
 
     this.clearMessages();
     this.updatingParticipantId.set(participant.id);
+    this.updateParticipantStatusInState(participant.id, status.toLowerCase());
 
     this.calendarService
       .updateParticipantStatus({
@@ -216,15 +243,27 @@ export class Calendar implements OnInit {
       })
       .subscribe({
         next: () => {
-          this.successMessage.set('Event response updated.');
           this.updatingParticipantId.set(null);
           this.loadEventParticipants(this.events());
         },
         error: (error: HttpErrorResponse) => {
+          this.updateParticipantStatusInState(participant.id, 'pending');
           this.errorMessage.set(this.getErrorMessage(error, 'Could not update event response.'));
           this.updatingParticipantId.set(null);
         },
       });
+  }
+
+  private updateParticipantStatusInState(participantId: number, status: string): void {
+    const updatedParticipantsByEvent = { ...this.eventParticipants() };
+
+    for (const eventId of Object.keys(updatedParticipantsByEvent)) {
+      updatedParticipantsByEvent[Number(eventId)] = updatedParticipantsByEvent[Number(eventId)].map((participant) =>
+        participant.id === participantId ? { ...participant, status } : participant,
+      );
+    }
+
+    this.eventParticipants.set(updatedParticipantsByEvent);
   }
 
   private loadCalendarData(): void {
