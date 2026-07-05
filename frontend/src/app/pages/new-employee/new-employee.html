@@ -27,25 +27,14 @@
         <input type="text" name="password" [(ngModel)]="password" required />
       </label>
 
-      <div class="form-grid">
-        <label>
-          Role
-          <select name="roleId" [(ngModel)]="roleId" required>
-            @for (role of roles(); track role.id) {
-              <option [ngValue]="role.id">{{ role.roleName }}</option>
-            }
-          </select>
-        </label>
-
-        <label>
-          Department
-          <select name="departmentId" [(ngModel)]="departmentId" required>
-            @for (department of departments(); track department.id) {
-              <option [ngValue]="department.id">{{ department.departmentName }}</option>
-            }
-          </select>
-        </label>
-      </div>
+      <label>
+        Department
+        <select name="departmentId" [(ngModel)]="departmentId" required>
+          @for (department of departments(); track department.id) {
+            <option [ngValue]="department.id">{{ department.departmentName }}</option>
+          }
+        </select>
+      </label>
 
       <button type="submit" [disabled]="isSaving()">
         {{ isSaving() ? 'Creating...' : 'Create employee' }}

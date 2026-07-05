@@ -17,12 +17,16 @@
         <textarea name="description" rows="3" [(ngModel)]="description" required></textarea>
       </label>
 
-      <label class="checkbox-label">
-        <input type="checkbox" name="requiredForAll" [(ngModel)]="requiredForAll" />
-        Required for all employees
+      <label>
+        Requirement
+        <select name="requirementScope" [(ngModel)]="requirementScope">
+          <option value="none">Not assigned</option>
+          <option value="all">Required for all employees</option>
+          <option value="department">Required for one department</option>
+        </select>
       </label>
 
-      @if (!requiredForAll) {
+      @if (requirementScope === 'department') {
         <label>
           Required for department
           <select name="requiredForDepartmentId" [(ngModel)]="requiredForDepartmentId" required>
@@ -66,7 +70,7 @@
             <tr>
               <td>{{ documentType.name }}</td>
               <td>{{ documentType.description }}</td>
-              <td>{{ documentType.requiredForAll ? 'All departments' : getDepartmentName(documentType.requiredForDepartmentId) }}</td>
+              <td>{{ getRequirementLabel(documentType) }}</td>
             </tr>
           }
         </tbody>
@@ -76,4 +80,3 @@
     }
   </section>
 </main>
-

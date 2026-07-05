@@ -1,8 +1,7 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { forkJoin } from 'rxjs';
 import { EmployeeService } from '../../core/employees/employee.service';
-import { DepartmentResponse, RoleResponse } from '../../core/lookups/lookup.models';
+import { DepartmentResponse } from '../../core/lookups/lookup.models';
 import { LookupService } from '../../core/lookups/lookup.service';
 
 @Component({
@@ -12,7 +11,6 @@ import { LookupService } from '../../core/lookups/lookup.service';
   styleUrl: './new-employee.scss',
 })
 export class NewEmployee implements OnInit {
-  roles = signal<RoleResponse[]>([]);
   departments = signal<DepartmentResponse[]>([]);
   successMessage = signal('');
   errorMessage = signal('');
@@ -22,7 +20,6 @@ export class NewEmployee implements OnInit {
   firstName = '';
   lastName = '';
   password = '';
-  roleId: number | null = null;
   departmentId: number | null = null;
 
   constructor(
@@ -31,18 +28,13 @@ export class NewEmployee implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    forkJoin({
-      roles: this.lookupService.getRoles(),
-      departments: this.lookupService.getDepartments(),
-    }).subscribe({
-      next: ({ roles, departments }) => {
-        this.roles.set(roles);
+    this.lookupService.getDepartments().subscribe({
+      next: (departments) => {
         this.departments.set(departments);
-        this.roleId = roles[0]?.id ?? null;
         this.departmentId = departments[0]?.id ?? null;
       },
       error: () => {
-        this.errorMessage.set('Could not load roles and departments.');
+        this.errorMessage.set('Could not load departments.');
       },
     });
   }
@@ -51,8 +43,8 @@ export class NewEmployee implements OnInit {
     this.successMessage.set('');
     this.errorMessage.set('');
 
-    if (this.roleId === null || this.departmentId === null) {
-      this.errorMessage.set('Role and department are required.');
+    if (this.departmentId === null) {
+      this.errorMessage.set('Department is required.');
       return;
     }
 
@@ -64,7 +56,7 @@ export class NewEmployee implements OnInit {
         firstName: this.firstName,
         lastName: this.lastName,
         password: this.password,
-        roleId: this.roleId,
+        roleId: 1,
         departmentId: this.departmentId,
         mustChangePassword: true,
       })
@@ -86,7 +78,6 @@ export class NewEmployee implements OnInit {
     this.firstName = '';
     this.lastName = '';
     this.password = '';
-    this.roleId = this.roles()[0]?.id ?? null;
     this.departmentId = this.departments()[0]?.id ?? null;
   }
 }

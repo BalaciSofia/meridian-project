@@ -21,7 +21,7 @@ export class DocumentTypes implements OnInit {
 
   name = '';
   description = '';
-  requiredForAll = true;
+  requirementScope: 'none' | 'all' | 'department' = 'none';
   requiredForDepartmentId: number | null = null;
 
   constructor(
@@ -42,8 +42,9 @@ export class DocumentTypes implements OnInit {
       .createDocumentType({
         name: this.name,
         description: this.description,
-        requiredForAll: this.requiredForAll,
-        requiredForDepartmentId: this.requiredForAll ? null : this.requiredForDepartmentId,
+        requiredForAll: this.requirementScope === 'all',
+        requiredForDepartmentId:
+          this.requirementScope === 'department' ? this.requiredForDepartmentId : null,
       })
       .subscribe({
         next: () => {
@@ -59,12 +60,18 @@ export class DocumentTypes implements OnInit {
       });
   }
 
-  getDepartmentName(departmentId?: number | null): string {
-    if (!departmentId) {
+  getRequirementLabel(documentType: DocumentTypeResponse): string {
+    if (documentType.requiredForAll) {
       return 'All departments';
     }
 
-    return this.departments().find((department) => department.id === departmentId)?.departmentName ?? 'Department';
+    if (!documentType.requiredForDepartmentId) {
+      return 'Not assigned';
+    }
+
+    return this.departments().find(
+      (department) => department.id === documentType.requiredForDepartmentId,
+    )?.departmentName ?? 'Department';
   }
 
   private loadPageData(): void {
@@ -99,8 +106,7 @@ export class DocumentTypes implements OnInit {
   private resetForm(): void {
     this.name = '';
     this.description = '';
-    this.requiredForAll = true;
+    this.requirementScope = 'none';
     this.requiredForDepartmentId = this.departments()[0]?.id ?? null;
   }
 }
-
