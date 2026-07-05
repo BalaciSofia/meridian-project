@@ -45,7 +45,7 @@ Open a terminal in the project folder and run:
 ```bash
 cd backend
 dotnet restore
-dotnet run
+dotnet run --launch-profile https
 ```
 
 The first time this runs, it will automatically:
