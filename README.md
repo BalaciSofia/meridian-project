@@ -5,6 +5,24 @@ Meridian without feeling lost. It has a company announcement feed, a work
 calendar (office / remote / absent, plus events you can accept or decline), a
 checklist of onboarding documents to upload, and an employee list for HR.
 
+## Tech stack
+
+- **Frontend:** Angular 21, TypeScript, SCSS
+- **Backend:** ASP.NET Core 8 Web API, Entity Framework Core, SQL Server
+- **Auth:** JWT with ASP.NET's PasswordHasher (salted hashes), forced password change on first login
+- **Other:** FluentValidation, Mapperly (DTO mapping), Swagger
+
+## Design notes
+
+How I approached the project, beyond the code:
+
+- [ASSUMPTIONS.md](ASSUMPTIONS.md) - who the users are and what I assumed about them
+- [DECISIONS.md](DECISIONS.md) - what I built, what I cut, and why
+- [REFLECTION.md](REFLECTION.md) - what was harder than expected
+- [WHAT_I_WOULD_DO_NEXT.md](WHAT_I_WOULD_DO_NEXT.md) - next steps
+
+## Running it locally
+
 The project has two parts, and you need both running at the same time:
 
 - `backend` - a .NET 8 API. This talks to the database.

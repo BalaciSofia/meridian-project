@@ -62,3 +62,6 @@ desktop.ini
 # IDEs
 .idea/
 .vscode/
+
+# Office temporary/lock files
+~$*
